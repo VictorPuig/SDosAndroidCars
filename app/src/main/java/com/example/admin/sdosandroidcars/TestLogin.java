@@ -32,7 +32,7 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
             Login login = (Login) logins[0];
 
             try {
-                return login.doLogin();
+                login.doLogin();
 
             } catch (IOException e) {
                 Log.e(TAG, "Error d'E/S a Login.doLogin():");
