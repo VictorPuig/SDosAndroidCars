@@ -29,6 +29,15 @@ public class APICall {
     private JSONObject requestJson;
     APICallCallback callbackClass;
 
+    APICall(String method, String url) {
+        this.url = url;
+        this.method = method;
+    }
+
+    APICall(String url) {
+        this("GET", url);
+    }
+
     private class APICallAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
         private final String AsyncTAG = "AsyncTask/" + TAG;
@@ -45,7 +54,7 @@ public class APICall {
 
                 conn.setRequestMethod(method);
                 conn.setRequestProperty("Content-Type", "application/json");
-                conn.setConnectTimeout(5000);
+                conn.setConnectTimeout(Constants.API_TIMEOUT_MILIS);
                 //conn.setReadTimeout();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -124,16 +133,6 @@ public class APICall {
         }
     }
 
-
-    APICall(String method, String url) {
-        this.url = url;
-        this.method = method;
-    }
-
-    APICall(String url) {
-        this("GET", url);
-    }
-
     public void setRequestJson(JSONObject json) {
         this.requestJson = json;
     }
@@ -146,6 +145,7 @@ public class APICall {
         return requestJson;
     }
 
+    //Metode per seleccionar a qui crida quan acaba la peticio
     public void setCallbackClass(APICallCallback cbClass) {
         callbackClass = cbClass;
     }

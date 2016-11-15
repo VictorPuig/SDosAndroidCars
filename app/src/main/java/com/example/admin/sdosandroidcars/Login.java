@@ -35,6 +35,7 @@ public class Login implements APICallCallback {
         }
 
         loginCall.setRequestJson(outputJson);
+        //this (Login) sera a qui crida APICall al acabar una peticio
         loginCall.setCallbackClass(this);
         loginCall.doAPICall();
     }
