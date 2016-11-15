@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_filter"
+            android:title="@string/filter"/>
+        <item
+            android:id="@+id/menu_addCar"
+            android:title="@string/form"/>
+    </group>
+
+
+    <menu>
+        <item
+            android:id="@+id/menu_login"
+            android:title="@string/login"/>
+        <item
+            android:id="@+id/menu_logout"
+            android:title="@string/login"/>
+    </menu>
+</menu>

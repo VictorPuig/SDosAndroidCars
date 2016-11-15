@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SDosAndroidCars</string>
+    <string name="user">User</string>
+    <string name="filter">Filter</string>
+    <string name="form">Add a new car</string>
+    <string name="login">Log In</string>
+    <string name="logout">Log Out</string>
+    <string name="title_activity_lateral_drawer">lateral_drawer</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
