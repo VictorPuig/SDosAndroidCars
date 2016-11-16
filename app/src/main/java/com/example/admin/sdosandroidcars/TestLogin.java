@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.admin.sdosandroidcars.info.Info;
+import com.example.admin.sdosandroidcars.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.login.Login;
 import com.example.admin.sdosandroidcars.login.LoginResultListener;
 import com.example.admin.sdosandroidcars.login.Signup;
@@ -25,6 +27,7 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     
     Button buttonLogin;
     Button buttonSignup;
+    Button buttonGetInfo;
 
     private boolean permissions = false;
     
@@ -38,9 +41,11 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
+        buttonGetInfo = (Button) findViewById(R.id.buttonGetInfo);
 
         buttonLogin.setOnClickListener(this);
         buttonSignup.setOnClickListener(this);
+        buttonGetInfo.setOnClickListener(this);
 
         addPermission(Manifest.permission.INTERNET);
 
@@ -60,16 +65,16 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     public void onClick(View view) {
         int id = view.getId();
 
+        if (!permissions) {
+            Log.d(TAG, "No tenim els permisos necessaris");
+
+            Toast.makeText(this, "No hi ha permisos!", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
         if (id == R.id.buttonLogin) {
             Log.d(TAG, "buttonLogin clickat");
-
-            if (!permissions) {
-                Log.d(TAG, "No tenim els permisos necessaris");
-
-                Toast.makeText(this, "No hi ha permisos!", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
 
             String username = editTextUsername.getText().toString();
             String password = editTextPassword.getText().toString();
@@ -93,14 +98,6 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
         } else if (id == R.id.buttonSignup) {
             Log.d(TAG, "buttonSignup clickat");
 
-            if (!permissions) {
-                Log.d(TAG, "No tenim els permisos necessaris");
-
-                Toast.makeText(this, "No hi ha permisos!", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-
             String username = editTextUsername.getText().toString();
             String password = editTextPassword.getText().toString();
 
@@ -119,6 +116,21 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
             });
 
             signup.doSignup();
+        } else if (id == R.id.buttonGetInfo) {
+            Log.d(TAG, "buttonGetInfo clickat");
+
+            Info info = new Info();
+
+            final TestLogin self = this;
+            info.setOnInfoResultListener(new InfoResultListener() {
+                @Override
+                public void onInfoResult(JSONObject json) {
+                    String show = (json == null) ? "Error" : json.toString();  //TODO: OMG
+                    Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            info.doGetInfo();
         }
     }
 }
