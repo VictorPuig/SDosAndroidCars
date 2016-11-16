@@ -5,12 +5,12 @@ import android.util.Log;
 
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
-import com.example.admin.sdosandroidcars.api.OnAPICallbackListener;
+import com.example.admin.sdosandroidcars.api.APICallbackListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Signup implements OnAPICallbackListener {
+public class Signup implements APICallbackListener {
 
     public final static String TAG = "Signup";
     public final static String SIGNUP_URL = Constants.getUrlFor("signup");

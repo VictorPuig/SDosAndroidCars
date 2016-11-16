@@ -4,13 +4,13 @@ import android.util.Log;
 
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
-import com.example.admin.sdosandroidcars.api.OnAPICallbackListener;
+import com.example.admin.sdosandroidcars.api.APICallbackListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class Login implements OnAPICallbackListener {
+public class Login implements APICallbackListener {
 
     public static final String TAG = "Login";
     public static final String LOGIN_URL = Constants.getUrlFor("login");

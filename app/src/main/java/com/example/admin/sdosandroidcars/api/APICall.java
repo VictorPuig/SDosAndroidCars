@@ -29,7 +29,7 @@ public class APICall {
     private String method;
     private String url;
     private JSONObject requestJson;
-    OnAPICallbackListener callbackClass;
+    APICallbackListener callbackClass;
 
     public APICall(String method, String url) {
         this.url = url;
@@ -148,7 +148,7 @@ public class APICall {
     }
 
     //Metode per seleccionar a qui crida quan acaba la peticio
-    public void setOnAPICallbackListener(OnAPICallbackListener cbClass) {
+    public void setOnAPICallbackListener(APICallbackListener cbClass) {
         callbackClass = cbClass;
     }
 
