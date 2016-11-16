@@ -1,26 +1,29 @@
-package com.example.admin.sdosandroidcars;
+package com.example.admin.sdosandroidcars.login;
 
 import android.util.Log;
+
+import com.example.admin.sdosandroidcars.Constants;
+import com.example.admin.sdosandroidcars.api.APICall;
+import com.example.admin.sdosandroidcars.api.OnAPICallbackListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 
-
-public class Login implements APICallCallback {
+public class Login implements OnAPICallbackListener {
 
     public static final String TAG = "Login";
     public static final String LOGIN_URL = Constants.getUrlFor("login");
 
     String username, password;
+    LoginResultListener loginResultListener;
 
-    Login(String username, String password) {
+    public Login(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public void doLogin() throws IOException {
+    public void doLogin() {
         Log.d(TAG, "doLogin started");
 
         APICall loginCall = new APICall("POST", LOGIN_URL);
@@ -36,13 +39,19 @@ public class Login implements APICallCallback {
 
         loginCall.setRequestJson(outputJson);
         //this (Login) sera a qui crida APICall al acabar una peticio
-        loginCall.setCallbackClass(this);
+        loginCall.setOnAPICallbackListener(this);
         loginCall.doAPICall();
     }
 
+    public void setOnLoginResultListener(LoginResultListener lrs) {
+        loginResultListener = lrs;
+    }
+
     @Override
-    public void APICallCallback(JSONObject json) {
-        Log.d(TAG, "Override this method!");
+    public void onAPICallback(JSONObject json) {
+        Log.d(TAG, ".onAPICallback() cridat");
         Log.d(TAG, "APICallResult:" + json.toString());
+
+        loginResultListener.onLoginResult(json);
     }
 }

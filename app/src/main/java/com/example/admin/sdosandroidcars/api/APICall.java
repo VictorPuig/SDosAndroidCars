@@ -1,8 +1,10 @@
-package com.example.admin.sdosandroidcars;
+package com.example.admin.sdosandroidcars.api;
 
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.admin.sdosandroidcars.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,9 +29,9 @@ public class APICall {
     private String method;
     private String url;
     private JSONObject requestJson;
-    APICallCallback callbackClass;
+    OnAPICallbackListener callbackClass;
 
-    APICall(String method, String url) {
+    public APICall(String method, String url) {
         this.url = url;
         this.method = method;
     }
@@ -45,8 +47,8 @@ public class APICall {
         @Override
         protected JSONObject doInBackground(Void... voids) {
             Log.d(AsyncTAG, ".doInBackground() cridat");
-            int responseCode = 0;
-            HttpURLConnection conn = null;
+            int responseCode;
+            HttpURLConnection conn;
             try {
                 URL loginUrl = new URL(url);
 
@@ -108,7 +110,7 @@ public class APICall {
                 }
 
 
-                JSONObject json = null;
+                JSONObject json;
                 try {
                     json = new JSONObject(response);
 
@@ -129,7 +131,7 @@ public class APICall {
         protected void onPostExecute(JSONObject json) {
             Log.d(AsyncTAG, ".onPostExecute() cridat");
 
-            callbackClass.APICallCallback(json);
+            callbackClass.onAPICallback(json);
         }
     }
 
@@ -146,7 +148,7 @@ public class APICall {
     }
 
     //Metode per seleccionar a qui crida quan acaba la peticio
-    public void setCallbackClass(APICallCallback cbClass) {
+    public void setOnAPICallbackListener(OnAPICallbackListener cbClass) {
         callbackClass = cbClass;
     }
 

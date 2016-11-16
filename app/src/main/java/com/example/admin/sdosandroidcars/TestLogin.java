@@ -1,7 +1,6 @@
 package com.example.admin.sdosandroidcars;
 
 import android.Manifest;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.example.admin.sdosandroidcars.login.Login;
+import com.example.admin.sdosandroidcars.login.LoginResultListener;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class TestLogin extends PermissionManager implements View.OnClickListener {
@@ -21,34 +24,6 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     Button buttonLogin;
 
     private boolean permissions = false;
-
-    private class LoginAsyncTask extends AsyncTask<Login, Void, Boolean> {
-
-        private static final String TAG = "LoginAsyncTask";
-
-        @Override
-        protected Boolean doInBackground(Login[] logins) {
-            Log.d(TAG, ".doInBackground() cridat");
-            Login login = (Login) logins[0];
-
-            try {
-                login.doLogin();
-
-            } catch (IOException e) {
-                Log.e(TAG, "Error d'E/S a Login.doLogin():");
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean loggedIn) {
-            Log.d(TAG, ".onPostExecute() cridat");
-
-            Log.d(TAG, "loggedIn:" + loggedIn);
-        }
-    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +68,16 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
 
                     Login login = new Login(username, password);
 
-                    LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
-                    loginAsyncTask.execute(login);
+                    final TestLogin self = this;
+                    login.setOnLoginResultListener(new LoginResultListener() {
+                        @Override
+                        public void onLoginResult(JSONObject json) {
+                            Toast.makeText(self, json.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    login.doLogin();
+
                 } else {
                     Log.d(TAG, "No tenim els permisos necessaris");
 
