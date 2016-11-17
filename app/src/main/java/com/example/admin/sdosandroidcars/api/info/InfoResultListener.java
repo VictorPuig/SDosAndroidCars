@@ -1,4 +1,4 @@
-package com.example.admin.sdosandroidcars.info;
+package com.example.admin.sdosandroidcars.api.info;
 
 
 import org.json.JSONObject;
