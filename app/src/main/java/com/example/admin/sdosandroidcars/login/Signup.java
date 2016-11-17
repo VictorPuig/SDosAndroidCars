@@ -23,8 +23,14 @@ public class Signup implements APICallbackListener {
         this.password = password;
     }
 
-    public void doSignup() {
+    public void doSignup() throws Exception {
         Log.d(TAG, "doSignup started");
+
+        if (signupResultListener == null) {
+            Log.d(TAG, "signupResultListener no establert");
+
+            throw new Exception("signupResultListener no establert");
+        }
 
         APICall signupCall = new APICall("POST", SIGNUP_URL);
 

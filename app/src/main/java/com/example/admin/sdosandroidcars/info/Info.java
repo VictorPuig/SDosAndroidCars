@@ -19,8 +19,14 @@ public class Info implements APICallbackListener {
 
     }
 
-    public void doGetInfo() {
+    public void doGetInfo() throws Exception {
         Log.d(TAG, "doSignup started");
+
+        if (infoResultListener == null) {
+            Log.d(TAG, "infoResultListener no establert");
+
+            throw new Exception("infoResultListener no establert");
+        }
 
         APICall signupCall = new APICall(INFO_URL);
 

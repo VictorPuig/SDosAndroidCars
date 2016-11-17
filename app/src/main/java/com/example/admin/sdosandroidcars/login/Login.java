@@ -23,8 +23,14 @@ public class Login implements APICallbackListener {
         this.password = password;
     }
 
-    public void doLogin() {
+    public void doLogin() throws Exception {
         Log.d(TAG, "doLogin started");
+
+        if (loginResultListener == null) {
+            Log.d(TAG, "loginResultListener no establert");
+
+            throw new Exception("loginResultListener no establert");
+        }
 
         APICall loginCall = new APICall("POST", LOGIN_URL);
 

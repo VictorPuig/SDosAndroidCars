@@ -93,7 +93,11 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
                 }
             });
 
-            login.doLogin();
+            try {
+                login.doLogin();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if (id == R.id.buttonSignup) {
             Log.d(TAG, "buttonSignup clickat");
@@ -115,7 +119,11 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
                 }
             });
 
-            signup.doSignup();
+            try {
+                signup.doSignup();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (id == R.id.buttonGetInfo) {
             Log.d(TAG, "buttonGetInfo clickat");
 
@@ -130,7 +138,11 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
                 }
             });
 
-            info.doGetInfo();
+            try {
+                info.doGetInfo();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
