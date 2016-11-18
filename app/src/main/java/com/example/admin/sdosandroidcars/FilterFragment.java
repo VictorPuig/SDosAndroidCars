@@ -6,14 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.admin.sdosandroidcars.R;
-
-/**
- * Created by Admin on 16/11/2016.
- */
+import com.example.admin.sdosandroidcars.api.ElementAdapter;
+import com.example.admin.sdosandroidcars.api.info.Filter;
 
 public class FilterFragment extends Fragment {
+
+    private static final String TAG = "FilterFragment";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
@@ -25,5 +26,27 @@ public class FilterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Filter");
+
+
+        ((Drawer)getActivity()).getFilter(new FilterAvailableListener() {
+            @Override
+            public void onFilterAvailable(Filter filter) {
+                if (filter == null)
+                    Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
+
+                ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
+
+                ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
+                makerListView.setAdapter(makerAdapter);
+
+                ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
+
+                ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
+                colorListView.setAdapter(colorAdapter);
+            }
+        });
+
+
+
     }
 }

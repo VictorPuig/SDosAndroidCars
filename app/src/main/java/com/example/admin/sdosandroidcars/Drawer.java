@@ -1,19 +1,27 @@
 package com.example.admin.sdosandroidcars;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.admin.sdosandroidcars.api.info.Filter;
+import com.example.admin.sdosandroidcars.api.info.Info;
+import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
+
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "Drawer";
+    public Filter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +72,6 @@ public class Drawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         displaySelectedScreen(item.getItemId());
@@ -101,5 +108,29 @@ public class Drawer extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void setFilter(Filter filter) {
+        Log.d(TAG, "Filters actualitzats");
+        this.filter = filter;
+    }
+
+    public void getFilter (final FilterAvailableListener filterAvailableListener) {
+        final Drawer self = this;
+
+        if (filter == null) {
+
+            Info.doGetInfo(new InfoResultListener() {
+                @Override
+                public void onInfoResult(Filter filter) {
+                    self.setFilter(filter);
+                    filterAvailableListener.onFilterAvailable(filter);
+                }
+            });
+        }
+
+        else {
+            filterAvailableListener.onFilterAvailable(filter);
+        }
     }
 }

@@ -14,20 +14,13 @@ public class Info {
 
     public final static String TAG = "Info";
     public final static String INFO_URL = Constants.getUrlFor("getInfo");
-    private InfoResultListener infoResultListener;
 
     public Info() {
 
     }
 
-    public void doGetInfo() throws Exception {
+    public static void doGetInfo(final InfoResultListener infoResultListener) {
         Log.d(TAG, "doSignup started");
-
-        if (infoResultListener == null) {
-            Log.d(TAG, "infoResultListener no establert");
-
-            throw new Exception("infoResultListener no establert");
-        }
 
         APICall signupCall = new APICall(INFO_URL);
 
@@ -38,6 +31,9 @@ public class Info {
                 Log.d(TAG, "onAPICallback cridat");
 
                 Filter filter = new Filter();
+
+                if (json == null)
+                    infoResultListener.onInfoResult(filter);
 
                 JSONArray colors = json.optJSONArray("color");
                 for (int i = 0; i < colors.length(); i++) {
@@ -63,13 +59,9 @@ public class Info {
                     filter.addMaker(makerEl);
                 }
 
-                infoResultListener.onInfoResult(filter.getJSONObject());
+                infoResultListener.onInfoResult(filter);
             }
         });
         signupCall.doAPICall();
-    }
-
-    public void setOnInfoResultListener(InfoResultListener irs) {
-        infoResultListener = irs;
     }
 }

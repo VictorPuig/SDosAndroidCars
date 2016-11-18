@@ -83,6 +83,14 @@ public class Filter {
         return filter;
     }
 
+    public ArrayList<Element> getColors() {
+        return colors;
+    }
+
+    public ArrayList<Element> getMakers() {
+        return makers;
+    }
+
     public JSONObject getJSONObject() {
         JSONObject obj = new JSONObject();
 

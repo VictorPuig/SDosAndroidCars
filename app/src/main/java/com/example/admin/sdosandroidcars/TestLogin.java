@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.api.login.Login;
@@ -130,19 +131,13 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
             Info info = new Info();
 
             final TestLogin self = this;
-            info.setOnInfoResultListener(new InfoResultListener() {
+            info.doGetInfo(new InfoResultListener() {
                 @Override
-                public void onInfoResult(JSONObject json) {
-                    String show = (json == null) ? "Error" : json.toString();  //TODO: OMG
+                public void onInfoResult(Filter filter) {
+                    String show = (filter == null) ? "Error" : filter.getJSONObject().toString();  //TODO: OMG
                     Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
                 }
             });
-
-            try {
-                info.doGetInfo();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }
