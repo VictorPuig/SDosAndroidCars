@@ -29,14 +29,14 @@ public class APICall {
     private String method;
     private String url;
     private JSONObject requestJson;
-    OnAPICallbackListener callbackClass;
+    APICallbackListener callbackClass;
 
     public APICall(String method, String url) {
         this.url = url;
         this.method = method;
     }
 
-    APICall(String url) {
+    public APICall(String url) {
         this("GET", url);
     }
 
@@ -47,29 +47,37 @@ public class APICall {
         @Override
         protected JSONObject doInBackground(Void... voids) {
             Log.d(AsyncTAG, ".doInBackground() cridat");
-            int responseCode;
+
+            Log.d(TAG, "method:" + method + " url:" + url);
+
             HttpURLConnection conn;
+
+            int responseCode;
+
             try {
                 URL loginUrl = new URL(url);
 
                 conn = (HttpURLConnection) loginUrl.openConnection();
 
                 conn.setRequestMethod(method);
-                conn.setRequestProperty("Content-Type", "application/json");
                 conn.setConnectTimeout(Constants.API_TIMEOUT_MILIS);
                 //conn.setReadTimeout();
                 conn.setDoInput(true);
-                conn.setDoOutput(true);
 
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                if (method.equals("POST") && requestJson != null) {
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setDoOutput(true);
 
-                Log.d(AsyncTAG, "json:" + requestJson.toString());
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-                bw.write(requestJson.toString());
-                bw.flush();
+                    Log.d(AsyncTAG, "json:" + requestJson.toString());
 
-                bw.close();
+                    bw.write(requestJson.toString());
+                    bw.flush();
+
+                    bw.close();
+                }
 
                 responseCode = conn.getResponseCode();
 
@@ -148,7 +156,7 @@ public class APICall {
     }
 
     //Metode per seleccionar a qui crida quan acaba la peticio
-    public void setOnAPICallbackListener(OnAPICallbackListener cbClass) {
+    public void setOnAPICallbackListener(APICallbackListener cbClass) {
         callbackClass = cbClass;
     }
 

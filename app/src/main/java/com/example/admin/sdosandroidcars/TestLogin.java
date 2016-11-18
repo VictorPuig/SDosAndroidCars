@@ -8,8 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.admin.sdosandroidcars.login.Login;
-import com.example.admin.sdosandroidcars.login.LoginResultListener;
+import com.example.admin.sdosandroidcars.api.info.Info;
+import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
+import com.example.admin.sdosandroidcars.api.login.Login;
+import com.example.admin.sdosandroidcars.api.login.LoginResultListener;
+import com.example.admin.sdosandroidcars.api.login.Signup;
+import com.example.admin.sdosandroidcars.api.login.SignupResultListener;
 
 import org.json.JSONObject;
 
@@ -22,6 +26,8 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     EditText editTextPassword;
     
     Button buttonLogin;
+    Button buttonSignup;
+    Button buttonGetInfo;
 
     private boolean permissions = false;
     
@@ -34,8 +40,12 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        buttonSignup = (Button) findViewById(R.id.buttonSignup);
+        buttonGetInfo = (Button) findViewById(R.id.buttonGetInfo);
 
         buttonLogin.setOnClickListener(this);
+        buttonSignup.setOnClickListener(this);
+        buttonGetInfo.setOnClickListener(this);
 
         addPermission(Manifest.permission.INTERNET);
 
@@ -54,36 +64,85 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        
-        switch (id) {
-            case R.id.buttonLogin:
-                Log.d(TAG, "buttonLogin clickat");
 
-                if (permissions) {
-                    String username = editTextUsername.getText().toString();
-                    String password = editTextPassword.getText().toString();
+        if (!permissions) {
+            Log.d(TAG, "No tenim els permisos necessaris");
 
-                    Log.d(TAG, "user:'" + username + "'");
-                    Log.d(TAG, "password:'" + password + "'");
+            Toast.makeText(this, "No hi ha permisos!", Toast.LENGTH_SHORT).show();
 
-                    Login login = new Login(username, password);
+            return;
+        }
 
-                    final TestLogin self = this;
-                    login.setOnLoginResultListener(new LoginResultListener() {
-                        @Override
-                        public void onLoginResult(JSONObject json) {
-                            Toast.makeText(self, json.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        if (id == R.id.buttonLogin) {
+            Log.d(TAG, "buttonLogin clickat");
 
-                    login.doLogin();
+            String username = editTextUsername.getText().toString();
+            String password = editTextPassword.getText().toString();
 
-                } else {
-                    Log.d(TAG, "No tenim els permisos necessaris");
+            Log.d(TAG, "user:'" + username + "'");
+            Log.d(TAG, "password:'" + password + "'");
 
-                    Toast toast = Toast.makeText(this, "No hi ha permisos!", Toast.LENGTH_SHORT);
-                    toast.show();
+            Login login = new Login(username, password);
+
+            final TestLogin self = this;
+            login.setOnLoginResultListener(new LoginResultListener() {
+                @Override
+                public void onLoginResult(JSONObject json) {
+                    String show = (json == null) ? "Error" : json.toString();  //TODO: OMG
+                    Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
                 }
+            });
+
+            try {
+                login.doLogin();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else if (id == R.id.buttonSignup) {
+            Log.d(TAG, "buttonSignup clickat");
+
+            String username = editTextUsername.getText().toString();
+            String password = editTextPassword.getText().toString();
+
+            Log.d(TAG, "user:'" + username + "'");
+            Log.d(TAG, "password:'" + password + "'");
+
+            Signup signup = new Signup(username, password);
+
+            final TestLogin self = this;
+            signup.setOnSignupResultListener(new SignupResultListener() {
+                @Override
+                public void onSignupResult(JSONObject json) {
+                    String show = (json == null) ? "Error" : json.toString();  //TODO: OMG
+                    Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            try {
+                signup.doSignup();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (id == R.id.buttonGetInfo) {
+            Log.d(TAG, "buttonGetInfo clickat");
+
+            Info info = new Info();
+
+            final TestLogin self = this;
+            info.setOnInfoResultListener(new InfoResultListener() {
+                @Override
+                public void onInfoResult(JSONObject json) {
+                    String show = (json == null) ? "Error" : json.toString();  //TODO: OMG
+                    Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            try {
+                info.doGetInfo();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

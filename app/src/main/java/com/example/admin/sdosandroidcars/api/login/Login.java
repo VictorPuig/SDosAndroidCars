@@ -1,16 +1,16 @@
-package com.example.admin.sdosandroidcars.login;
+package com.example.admin.sdosandroidcars.api.login;
 
 import android.util.Log;
 
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
-import com.example.admin.sdosandroidcars.api.OnAPICallbackListener;
+import com.example.admin.sdosandroidcars.api.APICallbackListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class Login implements OnAPICallbackListener {
+public class Login implements APICallbackListener {
 
     public static final String TAG = "Login";
     public static final String LOGIN_URL = Constants.getUrlFor("login");
@@ -23,8 +23,14 @@ public class Login implements OnAPICallbackListener {
         this.password = password;
     }
 
-    public void doLogin() {
+    public void doLogin() throws Exception {
         Log.d(TAG, "doLogin started");
+
+        if (loginResultListener == null) {
+            Log.d(TAG, "loginResultListener no establert");
+
+            throw new Exception("loginResultListener no establert");
+        }
 
         APICall loginCall = new APICall("POST", LOGIN_URL);
 
@@ -34,7 +40,7 @@ public class Login implements OnAPICallbackListener {
             outputJson.put("password", password);
         } catch (JSONException e) {
             Log.e(TAG, "Json error mentre es construia el l'objecte per enviar");
-            e.printStackTrace();
+            e.printStackTrace(); //TODO: cridar el callback amb null
         }
 
         loginCall.setRequestJson(outputJson);
@@ -50,7 +56,6 @@ public class Login implements OnAPICallbackListener {
     @Override
     public void onAPICallback(JSONObject json) {
         Log.d(TAG, ".onAPICallback() cridat");
-        Log.d(TAG, "APICallResult:" + json.toString());
 
         loginResultListener.onLoginResult(json);
     }

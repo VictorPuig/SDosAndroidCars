@@ -42,5 +42,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonLogin"
             android:layout_weight="1" />
+
+        <Button
+            android:text="Signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSignup"
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <Button
+        android:text="getInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGetInfo" />
 </LinearLayout>
