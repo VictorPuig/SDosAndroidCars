@@ -38,6 +38,15 @@ public class Drawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Inicialitza el filter
+        getFilter(new FilterAvailableListener() {
+            @Override
+            public void onFilterAvailable(Filter filter) {
+                //:)
+                Log.d(TAG, "Filter inicials descarregats");
+            }
+        });
     }
 
     @Override
@@ -116,10 +125,11 @@ public class Drawer extends AppCompatActivity
     }
 
     public void getFilter (final FilterAvailableListener filterAvailableListener) {
+        Log.d(TAG, ".getFilter() cridat");
+
         final Drawer self = this;
 
-        if (filter == null) {
-
+        if (filter == null || filter.isEmpty()) {
             Info.doGetInfo(new InfoResultListener() {
                 @Override
                 public void onInfoResult(Filter filter) {
@@ -130,6 +140,7 @@ public class Drawer extends AppCompatActivity
         }
 
         else {
+            Log.d(TAG, "Ja tenim els filters descarregats. Cridant listener");
             filterAvailableListener.onFilterAvailable(filter);
         }
     }

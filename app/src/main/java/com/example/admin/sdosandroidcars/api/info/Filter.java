@@ -21,6 +21,10 @@ public class Filter {
         this(new ArrayList<Element>(), new ArrayList<Element>());
     }
 
+    public boolean isEmpty() {
+        return colors.size() == 0 && makers.size() == 0;
+    }
+
     public void setColors(ArrayList<Element> colors) {
         this.colors = colors;
     }

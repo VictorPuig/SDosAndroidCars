@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.sdosandroidcars.api.ElementAdapter;
@@ -31,22 +32,25 @@ public class FilterFragment extends Fragment {
         ((Drawer)getActivity()).getFilter(new FilterAvailableListener() {
             @Override
             public void onFilterAvailable(Filter filter) {
-                if (filter == null)
+                if (filter.isEmpty()) {
                     Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
+                    ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
 
-                ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
+                } else {
+                    ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
+                    ((View) getView().findViewById(R.id.dataLayout)).setVisibility(View.VISIBLE);
 
-                ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
-                makerListView.setAdapter(makerAdapter);
+                    ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
 
-                ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
+                    ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
+                    makerListView.setAdapter(makerAdapter);
 
-                ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
-                colorListView.setAdapter(colorAdapter);
+                    ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
+
+                    ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
+                    colorListView.setAdapter(colorAdapter);
+                }
             }
         });
-
-
-
     }
 }

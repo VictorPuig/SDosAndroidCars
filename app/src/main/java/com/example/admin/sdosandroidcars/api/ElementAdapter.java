@@ -2,6 +2,7 @@ package com.example.admin.sdosandroidcars.api;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,15 +29,22 @@ public class ElementAdapter extends ArrayAdapter<Element> {
             convertView = new CheckBox(getContext());
         }
 
-        final CheckBox checkBox = (CheckBox) convertView;
+        CheckBox checkBox = (CheckBox) convertView;
 
         checkBox.setWidth(350);
         checkBox.setHeight(150);
+        checkBox.setChecked(element.isSelected());
         checkBox.setText(element.getName());
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                element.setSelected(checkBox.isSelected());
+                CheckBox checkbox = (CheckBox) view;
+
+                String TAG = "Checkbox:" + checkbox.getText();
+
+                Log.d(TAG, "onClick cridat");
+
+                element.setSelected(checkbox.isChecked());
             }
         });
 

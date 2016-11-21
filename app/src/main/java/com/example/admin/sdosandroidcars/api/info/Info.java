@@ -32,8 +32,10 @@ public class Info {
 
                 Filter filter = new Filter();
 
-                if (json == null)
+                if (json == null) {
                     infoResultListener.onInfoResult(filter);
+                    return;
+                }
 
                 JSONArray colors = json.optJSONArray("color");
                 for (int i = 0; i < colors.length(); i++) {

@@ -1,6 +1,8 @@
 package com.example.admin.sdosandroidcars.api.info;
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +34,8 @@ public class Element {
     }
 
     public void setSelected(boolean s) {
-        this.selected = selected;
+        Log.d(toString(), "Set selected:" + s);
+        this.selected = s;
     }
 
     public void select() {
@@ -56,5 +59,14 @@ public class Element {
         }
 
         return obj;
+    }
+
+    @Override
+    public String toString() {
+        return "Element{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", selected=" + selected +
+                '}';
     }
 }
