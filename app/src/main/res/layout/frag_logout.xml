@@ -3,13 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <Button
+        android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Logout"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginRight="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/buttonLogoutCancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="OK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLogoutOk"
+        android:layout_alignBaseline="@+id/buttonLogoutCancel"
+        android:layout_alignBottom="@+id/buttonLogoutCancel"
+        android:layout_toLeftOf="@+id/buttonLogoutCancel"
+        android:layout_toStartOf="@+id/buttonLogoutCancel" />
 
 </RelativeLayout>
