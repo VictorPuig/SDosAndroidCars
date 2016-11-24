@@ -37,8 +37,9 @@ public class LogoutFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
 
         switch (id) {
-            case R.id.buttonLoginCancel:
+            case R.id.buttonLogoutCancel:
                 ((Drawer) getActivity()).removeAllFragments();
+                getActivity().setTitle(R.string.app_name);
                 break;
         }
     }
