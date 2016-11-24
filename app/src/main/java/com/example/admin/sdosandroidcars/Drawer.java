@@ -126,6 +126,8 @@ public class Drawer extends AppCompatActivity
     Retorna true si ha amagat algun fragment, false ni ho hi habia res per amagar
      */
     public boolean removeAllFragments() {
+        Log.d(TAG, "removeAllFragments cridat");
+
         FragmentManager fm = getSupportFragmentManager();
 
         boolean fragmentRemoved = false;
