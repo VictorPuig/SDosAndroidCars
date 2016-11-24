@@ -53,24 +53,12 @@ public class Drawer extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
 
-            FragmentManager fm = getSupportFragmentManager();
-
-            boolean wasFragmentVisible = false;
-            FragmentTransaction ft = fm.beginTransaction();
-            for (Fragment f : fm.getFragments()) {
-                if (f != null) {
-                    wasFragmentVisible = true;
-                    ft.remove(f);
-                }
-            }
-            ft.commit();
-
-            if (!wasFragmentVisible)
-                super.onBackPressed();
+        } else if (!removeAllFragments()) {
+            super.onBackPressed();
         }
     }
 
@@ -132,6 +120,25 @@ public class Drawer extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    /*
+    Retorna true si ha amagat algun fragment, false ni ho hi habia res per amagar
+     */
+    public boolean removeAllFragments() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        boolean fragmentRemoved = false;
+        FragmentTransaction ft = fm.beginTransaction();
+        for (Fragment f : fm.getFragments()) {
+            if (f != null) {
+                fragmentRemoved = true;
+                ft.remove(f);
+            }
+        }
+        ft.commit();
+
+        return fragmentRemoved;
     }
 
     public void setFilter(Filter filter) {
