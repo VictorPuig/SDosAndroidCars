@@ -18,6 +18,8 @@ import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 
+import java.util.List;
+
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,11 +61,10 @@ public class Drawer extends AppCompatActivity
 
             drawer.closeDrawer(GravityCompat.START);
 
-        } else if (!removeAllFragments()) {
+        } else if (!show()) {
             super.onBackPressed();
 
         }
-        setTitle(R.string.app_name);
     }
 
     @Override
@@ -129,20 +130,24 @@ public class Drawer extends AppCompatActivity
     /*
     Retorna true si ha amagat algun fragment, false ni ho hi habia res per amagar
      */
-    public boolean removeAllFragments() {
-        Log.d(TAG, "removeAllFragments cridat");
+    public boolean show() {
+        Log.d(TAG, "show cridat");
 
         FragmentManager fm = getSupportFragmentManager();
 
         boolean fragmentRemoved = false;
         FragmentTransaction ft = fm.beginTransaction();
-        for (Fragment f : fm.getFragments()) {
-            if (f != null) {
-                fragmentRemoved = true;
-                ft.remove(f);
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments != null)
+            for (Fragment f : fragments) {
+                if (f != null) {
+                    fragmentRemoved = true;
+                    ft.remove(f);
+                }
             }
-        }
         ft.commit();
+
+        setTitle(R.string.app_name);
 
         return fragmentRemoved;
     }

@@ -38,8 +38,7 @@ public class AddCarFragment extends Fragment implements View.OnClickListener {
 
         switch (id) {
             case R.id.buttonAddCarsCancel:
-                ((Drawer) getActivity()).removeAllFragments();
-                getActivity().setTitle(R.string.app_name);
+                ((Drawer) getActivity()).show();
                 break;
         }
     }
