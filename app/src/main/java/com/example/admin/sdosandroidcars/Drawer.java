@@ -102,6 +102,9 @@ public class Drawer extends AppCompatActivity
 
         //initializing the fragment object which is selected
         switch (itemId) {
+            case R.id.nav_home:
+                show();
+                break;
             case R.id.nav_filter:
                 fragment = new FilterFragment();
                 break;
@@ -149,12 +152,14 @@ public class Drawer extends AppCompatActivity
 
         setTitle(R.string.app_name);
 
-        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
 
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         Menu menu = nav.getMenu();
 
         for (int i = 0; i < menu.size(); i++)
             menu.getItem(i).setChecked(false);
+
+        menu.getItem(0).setChecked(true);
 
         return fragmentRemoved;
     }
