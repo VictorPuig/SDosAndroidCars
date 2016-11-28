@@ -29,26 +29,31 @@ public class FilterFragment extends Fragment {
         getActivity().setTitle("Filter");
 
 
-        ((Drawer)getActivity()).getFilter(new FilterAvailableListener() {
+        ((Drawer) getActivity()).getFilter(new FilterAvailableListener() {
             @Override
             public void onFilterAvailable(Filter filter) {
-                if (filter.isEmpty()) {
-                    Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
-                    ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
+                try {
+                    if (filter.isEmpty()) {
+                        Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
+                        ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
 
-                } else {
-                    ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
-                    ((View) getView().findViewById(R.id.dataLayout)).setVisibility(View.VISIBLE);
+                    } else {
+                        ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
+                        ((View) getView().findViewById(R.id.dataLayout)).setVisibility(View.VISIBLE);
 
-                    ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
+                        ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
 
-                    ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
-                    makerListView.setAdapter(makerAdapter);
+                        ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
+                        makerListView.setAdapter(makerAdapter);
 
-                    ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
+                        ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
 
-                    ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
-                    colorListView.setAdapter(colorAdapter);
+                        ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
+                        colorListView.setAdapter(colorAdapter);
+                    }
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         });
