@@ -6,10 +6,10 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_filter"
-            android:title="Filter" />
+            android:title="@string/filter" />
         <item
             android:id="@+id/nav_addCar"
-            android:title="Add new Car" />
+            android:title="@string/add_new_car" />
     </group>
 
     <group
@@ -17,10 +17,10 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/nav_login"
-            android:title="Login" />
+            android:title="@string/login" />
         <item
             android:id="@+id/nav_logout"
-            android:title="Logout" />
+            android:title="@string/logout" />
     </group>
 
 </menu>
