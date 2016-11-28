@@ -46,6 +46,7 @@ public class Element {
         setSelected(false);
     }
 
+    //Crea un nou objecte Json amb la id, nom i boolean selected del element
     public JSONObject getJSONObject() {
         JSONObject obj = new JSONObject();
 

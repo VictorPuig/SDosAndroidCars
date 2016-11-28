@@ -36,10 +36,12 @@ public class APICall {
         this.method = method;
     }
 
+    //Per defecte, APICall executara una peticio "GET"
     public APICall(String url) {
         this("GET", url);
     }
 
+    //AsyncTask que retorna el json(dades del filter) del servidor
     private class APICallAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
         private final String AsyncTAG = "AsyncTask/" + TAG;
@@ -50,29 +52,37 @@ public class APICall {
 
             Log.d(TAG, "method:" + method + " url:" + url);
 
+            //Conexio instanciada
             HttpURLConnection conn;
 
             int responseCode;
 
             try {
+                //url que se li pasa a la clase APICall al instanciarla (/getInfo)
                 URL loginUrl = new URL(url);
 
+                //obrim conexio amb el servidor
                 conn = (HttpURLConnection) loginUrl.openConnection();
 
+                //metode POST o GET
                 conn.setRequestMethod(method);
+                //Timeout de la conexió per a que mori al no contestar
                 conn.setConnectTimeout(Constants.API_TIMEOUT_MILIS);
                 //conn.setReadTimeout();
                 conn.setDoInput(true);
+
 
                 if (method.equals("POST") && requestJson != null) {
                     conn.setRequestProperty("Content-Type", "application/json");
                     conn.setDoOutput(true);
 
+                    //os conte la resposta del servidor (json)
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
                     Log.d(AsyncTAG, "json:" + requestJson.toString());
 
+                    //escrivim la resposta al requestJson
                     bw.write(requestJson.toString());
                     bw.flush();
 
@@ -98,12 +108,15 @@ public class APICall {
                 return null;
             }
 
+            //Si la peticio ha anat be
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 String line, response = "";
 
                 try {
+                    //creem un reader de la conexion
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
+                    //llegim conexio i afegim la resposta a response
                     while ((line = br.readLine()) != null) {
                         Log.d(AsyncTAG, "Response line: " + line);
                         response += line;
@@ -117,7 +130,7 @@ public class APICall {
                     return null;
                 }
 
-
+                //copiem la resposta (string) al json, en format json i el retornem (al onPostExecute)
                 JSONObject json;
                 try {
                     json = new JSONObject(response);
@@ -136,6 +149,7 @@ public class APICall {
         }
 
         @Override
+        //Una vegada retornat el json, retornem la resposta a qui ha cridat APICall (Info)
         protected void onPostExecute(JSONObject json) {
             Log.d(AsyncTAG, ".onPostExecute() cridat");
 
@@ -160,6 +174,7 @@ public class APICall {
         callbackClass = cbClass;
     }
 
+    //Metode que executa l'asyncTask de la peticio de les dades al servidor
     public void doAPICall() {
         Log.d(TAG, ".doAPICall() cridat");
 

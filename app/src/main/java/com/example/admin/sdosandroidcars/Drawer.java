@@ -99,6 +99,7 @@ public class Drawer extends AppCompatActivity
         return true;
     }
 
+    //metode que deselecciona tots els items del menu drawer
     private void uncheckMenuItems() {
         for (int i = 0; i < menu.size(); i++)
             menu.getItem(i).setChecked(false);
@@ -178,16 +179,21 @@ public class Drawer extends AppCompatActivity
 
         final Drawer self = this;
 
+        //Si el filtre encara no s'ha descarregat
         if (filter == null || filter.isEmpty()) {
+            //Cridem al metode static doGetiInfo que ens retorna un filtre
             Info.doGetInfo(new InfoResultListener() {
                 @Override
                 public void onInfoResult(Filter filter) {
+                    //Agafem el filtre retornat i actualitzem el de la clase Drawer (Main)
                     self.setFilter(filter);
+                    //Avisem que ja tenim un filtre disponible i el pasem
                     filterAvailableListener.onFilterAvailable(filter);
                 }
             });
         }
 
+        //Si ja tenim el filtre descarregat, avisem i el pasem
         else {
             Log.d(TAG, "Ja tenim els filters descarregats. Cridant listener");
             filterAvailableListener.onFilterAvailable(filter);
