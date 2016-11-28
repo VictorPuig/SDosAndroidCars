@@ -25,6 +25,8 @@ public class Drawer extends AppCompatActivity
 
     private static final String TAG = "Drawer";
     public Filter filter;
+    private NavigationView nav;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,10 @@ public class Drawer extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+        nav = (NavigationView) findViewById(R.id.nav_view);
+        nav.setNavigationItemSelectedListener(this);
+        menu = nav.getMenu();
 
         // Inicialitza el filter
         getFilter(new FilterAvailableListener() {
@@ -95,6 +99,11 @@ public class Drawer extends AppCompatActivity
         return true;
     }
 
+    private void uncheckMenuItems() {
+        for (int i = 0; i < menu.size(); i++)
+            menu.getItem(i).setChecked(false);
+    }
+
     private void displaySelectedScreen(int itemId) {
 
         //creating fragment object
@@ -113,9 +122,11 @@ public class Drawer extends AppCompatActivity
                 break;
             case R.id.nav_login:
                 fragment = new LoginFragment();
+                uncheckMenuItems();
                 break;
             case R.id.nav_logout:
                 fragment = new LogoutFragment();
+                uncheckMenuItems();
                 break;
         }
 
@@ -151,14 +162,7 @@ public class Drawer extends AppCompatActivity
         ft.commit();
 
         setTitle(R.string.app_name);
-
-
-        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
-        Menu menu = nav.getMenu();
-
-        for (int i = 0; i < menu.size(); i++)
-            menu.getItem(i).setChecked(false);
-
+        uncheckMenuItems();
         menu.getItem(0).setChecked(true);
 
         return fragmentRemoved;
