@@ -149,6 +149,13 @@ public class Drawer extends AppCompatActivity
 
         setTitle(R.string.app_name);
 
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+
+        Menu menu = nav.getMenu();
+
+        for (int i = 0; i < menu.size(); i++)
+            menu.getItem(i).setChecked(false);
+
         return fragmentRemoved;
     }
 
