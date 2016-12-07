@@ -95,6 +95,7 @@ public class Filter {
         return makers;
     }
 
+    //Crea un nou objecte Json amb dos arrays d'objectes Json (1 array de makers i 1 array de colors)
     public JSONObject getJSONObject() {
         JSONObject obj = new JSONObject();
 
