@@ -17,7 +17,7 @@ public class Filter {
         this.makers = makers;
     }
 
-    Filter() {
+    public Filter() {
         this(new ArrayList<Element>(), new ArrayList<Element>());
     }
 
@@ -108,8 +108,8 @@ public class Filter {
             makerArray.put(e.getJSONObject());
 
         try {
-            obj.put("colors", colorArray);
-            obj.put("makers", makerArray);
+            obj.put("color", colorArray);
+            obj.put("maker", makerArray);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

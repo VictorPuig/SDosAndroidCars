@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
 import com.example.admin.sdosandroidcars.api.APICallbackListener;
+import com.example.admin.sdosandroidcars.api.info.Filter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,13 +24,14 @@ public class Cars {
 
     private Cars() {}
 
-    public static void doGetCars(JSONObject filter, final FilteredCarsResultListener crs) throws Exception {
+    public static void doGetCars(Filter filter, final FilteredCarsResultListener crs) {
         Log.d(TAG, "doGetCars() cridat");
 
         APICall getCarsCall = new APICall("POST", GET_CARS_URL);
 
-        getCarsCall.setRequestJson(filter);
+        getCarsCall.setRequestJson(filter.getJSONObject());
 
+        Log.d(TAG, "JEISON " + filter.getJSONObject().toString());
         getCarsCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
             public void onAPICallback(JSONObject json) {
@@ -112,4 +114,7 @@ public class Cars {
         });
         addMakerCall.doAPICall();
     }
+
+
+
 }

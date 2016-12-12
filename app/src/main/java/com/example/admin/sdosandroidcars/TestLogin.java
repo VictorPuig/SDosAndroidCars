@@ -147,7 +147,7 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
 
             final TestLogin self = this;
             try {
-                Cars.doGetCars(new JSONObject("{maker:[],color:[]}"), new FilteredCarsResultListener() {
+                Cars.doGetCars(new Filter(), new FilteredCarsResultListener() {
                     @Override
                     public void onCarsResult(ArrayList<Car> cars) {
                         String show = cars.toString();

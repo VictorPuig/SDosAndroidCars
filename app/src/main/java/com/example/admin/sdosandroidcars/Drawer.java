@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
+import com.example.admin.sdosandroidcars.api.cars.Car;
+import com.example.admin.sdosandroidcars.api.cars.Cars;
+import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
 import com.example.admin.sdosandroidcars.api.info.Element;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
@@ -67,18 +70,25 @@ public class Drawer extends AppCompatActivity
         getFilter(new FilterAvailableListener() {
             @Override
             public void onFilterAvailable(Filter filter) {
-                //:)
                 Log.d(TAG, "Filter inicials descarregats");
-                //TODO Descarregar url dels cotxes dins d'una array i pasarla al new GridViewAdapter
-                //gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, new ArrayList<String>());
-                //gridView.setAdapter(gridAdapter);
-                filter = filter.getSelected();
+                Cars.doGetCars(filter, new FilteredCarsResultListener() {
+                    @Override
+                    public void onCarsResult(ArrayList<Car> cars) {
+                        Log.d(TAG, "DoGetCars cridat");
 
-                ArrayList<String> urls = new ArrayList<String>();
-                for(Element maker: filter.getMakers()) {
+                        ArrayList<String> urls = new ArrayList();
+                        for (Car car : cars) {
+                            urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
+                        }
 
-                }
-                GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(),R.layout.grid_item_layout,urls);
+                        for (String url : urls)
+                            Log.d("URLS", "url: " + url);
+
+                        GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
+                        gridView.setAdapter(gridViewAdapter);
+
+                    }
+                });
             }
         });
     }
