@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class Info {
 
     public final static String TAG = "Info";
-    public final static String INFO_URL = Constants.getUrlFor("getInfo");
+    private final static String INFO_URL = Constants.getUrlFor("getInfo");
 
     public Info() {
 

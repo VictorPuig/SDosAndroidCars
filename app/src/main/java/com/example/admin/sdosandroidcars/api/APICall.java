@@ -29,7 +29,7 @@ public class APICall {
     private String method;
     private String url;
     private JSONObject requestJson;
-    APICallbackListener callbackClass;
+    private APICallbackListener callbackClass;
 
     public APICall(String method, String url) {
         this.url = url;

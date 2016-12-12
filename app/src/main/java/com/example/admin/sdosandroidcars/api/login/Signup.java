@@ -13,10 +13,10 @@ import org.json.JSONObject;
 public class Signup implements APICallbackListener {
 
     public final static String TAG = "Signup";
-    public final static String SIGNUP_URL = Constants.getUrlFor("signup");
+    private final static String SIGNUP_URL = Constants.getUrlFor("signup");
 
-    String username, password;
-    SignupResultListener signupResultListener;
+    private String username, password;
+    private SignupResultListener signupResultListener;
 
     public Signup(String username, String password) {
         this.username = username;

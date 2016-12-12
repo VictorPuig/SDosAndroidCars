@@ -13,10 +13,10 @@ import org.json.JSONObject;
 public class Login implements APICallbackListener {
 
     public static final String TAG = "Login";
-    public static final String LOGIN_URL = Constants.getUrlFor("login");
+    private static final String LOGIN_URL = Constants.getUrlFor("login");
 
-    String username, password;
-    LoginResultListener loginResultListener;
+    private String username, password;
+    private LoginResultListener loginResultListener;
 
     public Login(String username, String password) {
         this.username = username;

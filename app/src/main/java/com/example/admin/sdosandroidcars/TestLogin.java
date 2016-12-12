@@ -128,10 +128,8 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
         } else if (id == R.id.buttonGetInfo) {
             Log.d(TAG, "buttonGetInfo clickat");
 
-            Info info = new Info();
-
             final TestLogin self = this;
-            info.doGetInfo(new InfoResultListener() {
+            Info.doGetInfo(new InfoResultListener() {
                 @Override
                 public void onInfoResult(Filter filter) {
                     String show = (filter == null) ? "Error" : filter.getJSONObject().toString();  //TODO: OMG

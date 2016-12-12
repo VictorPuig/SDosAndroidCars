@@ -17,12 +17,14 @@ public class Cars {
     private final static String COLOR_URL = Constants.getUrlFor("addColor");
     private final static String CAR_URL = Constants.getUrlFor("addCar");
 
-    Cars() {}
+    private Cars() {}
 
     public static void doGetCars(JSONObject filter, final CarsResultListener crs) throws Exception {
         Log.d(TAG, "doGetCars() cridat");
 
         APICall getCarsCall = new APICall(GET_CARS_URL);
+
+        getCarsCall.setRequestJson(filter);
 
         getCarsCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
@@ -39,6 +41,8 @@ public class Cars {
 
         APICall addMakerCall = new APICall("POST", MAKER_URL);
 
+        addMakerCall.setRequestJson(makerJson);
+
         addMakerCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
             public void onAPICallback(JSONObject json) {
@@ -54,6 +58,8 @@ public class Cars {
 
         APICall addMakerCall = new APICall("POST", COLOR_URL);
 
+        addMakerCall.setRequestJson(colorJson);
+
         addMakerCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
             public void onAPICallback(JSONObject json) {
@@ -68,6 +74,8 @@ public class Cars {
         Log.d(TAG, "doAddCar started");
 
         APICall addMakerCall = new APICall("POST", CAR_URL);
+
+        addMakerCall.setRequestJson(carJson);
 
         addMakerCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
