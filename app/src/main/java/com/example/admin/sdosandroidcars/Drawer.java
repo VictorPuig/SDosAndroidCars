@@ -1,5 +1,6 @@
 package com.example.admin.sdosandroidcars;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -85,8 +86,10 @@ public class Drawer extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.testItem) {
+            Intent i = new Intent(this, TestLogin.class);
+            startActivity(i);
+
             return true;
         }
 

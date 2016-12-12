@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.admin.sdosandroidcars.api.cars.Car;
+import com.example.admin.sdosandroidcars.api.cars.Cars;
+import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
@@ -29,6 +32,7 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
     Button buttonLogin;
     Button buttonSignup;
     Button buttonGetInfo;
+    Button buttonGetCars;
 
     private boolean permissions = false;
     
@@ -43,10 +47,12 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
         buttonGetInfo = (Button) findViewById(R.id.buttonGetInfo);
+        buttonGetCars = (Button) findViewById(R.id.buttonGetCars);
 
         buttonLogin.setOnClickListener(this);
         buttonSignup.setOnClickListener(this);
         buttonGetInfo.setOnClickListener(this);
+        buttonGetCars.setOnClickListener(this);
 
         addPermission(Manifest.permission.INTERNET);
 
@@ -136,6 +142,21 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
                     Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
                 }
             });
+        } else if (id == R.id.buttonGetCars) {
+            Log.d(TAG, "buttonGetCars clickat");
+
+            final TestLogin self = this;
+            try {
+                Cars.doGetCars(new JSONObject("{maker:[],color:[]}"), new FilteredCarsResultListener() {
+                    @Override
+                    public void onCarsResult(ArrayList<Car> cars) {
+                        String show = cars.toString();
+                        Toast.makeText(self, show, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
