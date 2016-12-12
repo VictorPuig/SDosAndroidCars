@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Filter {
 
-    ArrayList<Element> colors;
-    ArrayList<Element> makers;
+    private ArrayList<Element> colors;
+    private ArrayList<Element> makers;
 
     Filter(ArrayList<Element> colors, ArrayList<Element> makers) {
         this.colors = colors;
@@ -58,7 +58,7 @@ public class Filter {
     }
 
     public ArrayList<Element> getSelectedColors() {
-        ArrayList<Element> selected = new  ArrayList<Element>();
+        ArrayList<Element> selected = new  ArrayList<>();
 
         for (Element e : colors)
             if (e.isSelected())
@@ -68,7 +68,7 @@ public class Filter {
     }
 
     public ArrayList<Element> getSelectedMakers() {
-        ArrayList<Element> selected = new  ArrayList<Element>();
+        ArrayList<Element> selected = new  ArrayList<>();
 
         for (Element e : makers)
             if (e.isSelected())
