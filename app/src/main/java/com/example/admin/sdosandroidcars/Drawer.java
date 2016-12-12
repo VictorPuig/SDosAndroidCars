@@ -13,12 +13,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
 
+import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
+import com.example.admin.sdosandroidcars.api.info.Element;
+import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
+import com.example.admin.sdosandroidcars.fragments.FilterFragment;
+import com.example.admin.sdosandroidcars.fragments.LoginFragment;
+import com.example.admin.sdosandroidcars.fragments.LogoutFragment;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.admin.sdosandroidcars.R.id.gridView;
 
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +37,9 @@ public class Drawer extends AppCompatActivity
     public Filter filter;
     private NavigationView nav;
     private Menu menu;
+
+    private GridView gridView;
+    private GridViewAdapter gridAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +55,8 @@ public class Drawer extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        gridView = (GridView) findViewById(R.id.gridView);
+
 
         nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
@@ -53,6 +68,16 @@ public class Drawer extends AppCompatActivity
             public void onFilterAvailable(Filter filter) {
                 //:)
                 Log.d(TAG, "Filter inicials descarregats");
+                //TODO Descarregar url dels cotxes dins d'una array i pasarla al new GridViewAdapter
+                //gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, new ArrayList<String>());
+                //gridView.setAdapter(gridAdapter);
+                filter = filter.getSelected();
+
+                ArrayList<String> urls = new ArrayList<String>();
+                for(Element maker: filter.getMakers()) {
+
+                }
+                GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(),R.layout.grid_item_layout,urls);
             }
         });
     }

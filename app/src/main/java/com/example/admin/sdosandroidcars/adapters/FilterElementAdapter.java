@@ -1,4 +1,4 @@
-package com.example.admin.sdosandroidcars.api;
+package com.example.admin.sdosandroidcars.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,9 +13,9 @@ import com.example.admin.sdosandroidcars.api.info.Element;
 import java.util.ArrayList;
 
 
-public class ElementAdapter extends ArrayAdapter<Element> {
+public class FilterElementAdapter extends ArrayAdapter<Element> {
 
-    public ElementAdapter(Context context, ArrayList<Element> elements) {
+    public FilterElementAdapter(Context context, ArrayList<Element> elements) {
         super(context, 0, elements );
     }
 

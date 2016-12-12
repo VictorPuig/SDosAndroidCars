@@ -1,4 +1,4 @@
-package com.example.admin.sdosandroidcars;
+package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.sdosandroidcars.api.ElementAdapter;
+import com.example.admin.sdosandroidcars.Drawer;
+import com.example.admin.sdosandroidcars.adapters.FilterElementAdapter;
+import com.example.admin.sdosandroidcars.FilterAvailableListener;
+import com.example.admin.sdosandroidcars.R;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 
 public class FilterFragment extends Fragment {
@@ -41,12 +44,12 @@ public class FilterFragment extends Fragment {
                         ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
                         ((View) getView().findViewById(R.id.dataLayout)).setVisibility(View.VISIBLE);
 
-                        ElementAdapter makerAdapter = new ElementAdapter(getContext(), filter.getMakers());
+                        FilterElementAdapter makerAdapter = new FilterElementAdapter(getContext(), filter.getMakers());
 
                         ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
                         makerListView.setAdapter(makerAdapter);
 
-                        ElementAdapter colorAdapter = new ElementAdapter(getContext(), filter.getColors());
+                        FilterElementAdapter colorAdapter = new FilterElementAdapter(getContext(), filter.getColors());
 
                         ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
                         colorListView.setAdapter(colorAdapter);

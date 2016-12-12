@@ -1,4 +1,4 @@
-package com.example.admin.sdosandroidcars;
+package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,25 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.admin.sdosandroidcars.Drawer;
+import com.example.admin.sdosandroidcars.R;
+
 /**
  * Created by Admin on 16/11/2016.
  */
 
-public class LogoutFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.frag_logout, container, false);
+        return inflater.inflate(R.layout.frag_login, container, false);
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Logout");
+        getActivity().setTitle("Login");
 
-        Button btnCancel = (Button) getView().findViewById(R.id.buttonLogoutCancel);
-        Button btnOk = (Button) getView().findViewById(R.id.buttonLogoutOk);
+        Button btnCancel = (Button) getView().findViewById(R.id.buttonLoginCancel);
+        Button btnOk = (Button) getView().findViewById(R.id.buttonLoginOk);
 
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
@@ -37,7 +40,7 @@ public class LogoutFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
 
         switch (id) {
-            case R.id.buttonLogoutCancel:
+            case R.id.buttonLoginCancel:
                 ((Drawer) getActivity()).show();
                 break;
         }

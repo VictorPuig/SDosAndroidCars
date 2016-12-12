@@ -1,4 +1,4 @@
-package com.example.admin.sdosandroidcars;
+package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
