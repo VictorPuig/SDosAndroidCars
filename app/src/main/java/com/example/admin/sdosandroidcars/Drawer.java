@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
 import com.example.admin.sdosandroidcars.api.cars.Car;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.admin.sdosandroidcars.R.id.gridView;
+import static java.security.AccessController.getContext;
 
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,22 +75,29 @@ public class Drawer extends AppCompatActivity
             @Override
             public void onFilterAvailable(Filter filter) {
                 Log.d(TAG, "Filter inicials descarregats");
-                Cars.doGetCars(filter, new FilteredCarsResultListener() {
+                Cars.doGetCars(filter.getSelected(), new FilteredCarsResultListener() {
                     @Override
                     public void onCarsResult(ArrayList<Car> cars) {
                         Log.d(TAG, "DoGetCars cridat");
 
-                        ArrayList<String> urls = new ArrayList();
-                        for (Car car : cars) {
-                            urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
+                        if (cars == null) {
+                            Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
+                            ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
+                            return;
                         }
+                        else {
+                            findViewById(R.id.statusCarsView).setVisibility(View.GONE);
+                            ArrayList<String> urls = new ArrayList();
+                            for (Car car : cars) {
+                                urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
+                            }
 
-                        for (String url : urls)
-                            Log.d("URLS", "url: " + url);
+                            for (String url : urls)
+                                Log.d("URLS", "url: " + url);
 
-                        GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
-                        gridView.setAdapter(gridViewAdapter);
-
+                            GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
+                            gridView.setAdapter(gridViewAdapter);
+                        }
                     }
                 });
             }
