@@ -31,6 +31,10 @@ public class FilterFragment extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Filter");
 
+        Drawer mydrawer = (Drawer)getActivity();
+        getView().setBackgroundColor(mydrawer.activityColor);
+        getView().setClickable(true);
+
 
         ((Drawer) getActivity()).getFilter(new FilterAvailableListener() {
             @Override

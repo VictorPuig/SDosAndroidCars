@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.R;
 
 /**
@@ -25,5 +26,9 @@ public class GalleryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Gallery");
+
+        Drawer mydrawer = (Drawer)getActivity();
+        getView().setBackgroundColor(mydrawer.activityColor);
+        getView().setClickable(true);
     }
 }

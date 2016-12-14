@@ -1,5 +1,8 @@
 package com.example.admin.sdosandroidcars.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.R;
@@ -33,6 +37,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+
+        Drawer mydrawer = (Drawer)getActivity();
+        getView().setBackgroundColor(mydrawer.activityColor);
+        getView().setClickable(true);
+
     }
 
     @Override

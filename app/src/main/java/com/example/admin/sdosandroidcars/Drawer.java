@@ -1,6 +1,9 @@
 package com.example.admin.sdosandroidcars;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -42,6 +45,7 @@ public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Drawer";
+    public int activityColor = 0;
     public Filter filter;
     private NavigationView nav;
     private Menu menu;
@@ -54,6 +58,14 @@ public class Drawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_drawer);
+
+        Drawable background = getWindow().getDecorView().getBackground();
+
+        activityColor = Color.TRANSPARENT;
+
+        if (background instanceof ColorDrawable)
+            activityColor = ((ColorDrawable) background).getColor();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -71,37 +83,7 @@ public class Drawer extends AppCompatActivity
         menu = nav.getMenu();
 
         // Inicialitza el filter
-        getFilter(new FilterAvailableListener() {
-            @Override
-            public void onFilterAvailable(Filter filter) {
-                Log.d(TAG, "Filter inicials descarregats");
-                Cars.doGetCars(filter.getSelected(), new FilteredCarsResultListener() {
-                    @Override
-                    public void onCarsResult(ArrayList<Car> cars) {
-                        Log.d(TAG, "DoGetCars cridat");
-
-                        if (cars == null) {
-                            Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
-                            ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
-                            return;
-                        }
-                        else {
-                            findViewById(R.id.statusCarsView).setVisibility(View.GONE);
-                            ArrayList<String> urls = new ArrayList();
-                            for (Car car : cars) {
-                                urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
-                            }
-
-                            for (String url : urls)
-                                Log.d("URLS", "url: " + url);
-
-                            GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
-                            gridView.setAdapter(gridViewAdapter);
-                        }
-                    }
-                });
-            }
-        });
+        doGetCars();
     }
 
     @Override
@@ -152,6 +134,45 @@ public class Drawer extends AppCompatActivity
     private void uncheckMenuItems() {
         for (int i = 0; i < menu.size(); i++)
             menu.getItem(i).setChecked(false);
+    }
+
+    //TODO Si el filtre no ha cambiat, retornem sense cridar APICALL
+    //TODO Instanciar 2 filtres, un auxiliar per compararlo amb l'altre, si son iguals, no cridem a getCars, si son diferents, cridem a getCars
+    //TODO Implementar metode equals per comparar els dos filtres
+    public void doGetCars () {
+        getFilter(new FilterAvailableListener() {
+            @Override
+            public void onFilterAvailable(Filter filter) {
+                Log.d(TAG, "Filter inicials descarregats");
+                Cars.doGetCars(filter.getSelected(), new FilteredCarsResultListener() {
+                    @Override
+                    public void onCarsResult(ArrayList<Car> cars) {
+                        Log.d(TAG, "DoGetCars cridat");
+
+                        if (cars == null) {
+                            Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
+                            ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
+
+
+                            return;
+                        }
+                        else {
+                            findViewById(R.id.statusCarsView).setVisibility(View.GONE);
+                            ArrayList<String> urls = new ArrayList();
+                            for (Car car : cars) {
+                                urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
+                            }
+
+                            for (String url : urls)
+                                Log.d("URLS", "url: " + url);
+
+                            GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
+                            gridView.setAdapter(gridViewAdapter);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void displaySelectedScreen(int itemId) {

@@ -33,6 +33,10 @@ public class AddCarFragment extends Fragment implements View.OnClickListener {
 
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+
+        Drawer mydrawer = (Drawer)getActivity();
+        getView().setBackgroundColor(mydrawer.activityColor);
+        getView().setClickable(true);
     }
 
     @Override
