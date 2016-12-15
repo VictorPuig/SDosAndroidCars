@@ -46,7 +46,7 @@ public class FilterFragment extends Fragment {
 
                     } else {
                         ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
-                        ((View) getView().findViewById(R.id.dataLayout)).setVisibility(View.VISIBLE);
+                        ((View) getView().findViewById(R.id.dataLayoutParent)).setVisibility(View.VISIBLE);
 
                         FilterElementAdapter makerAdapter = new FilterElementAdapter(getContext(), filter.getMakers());
 

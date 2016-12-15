@@ -7,6 +7,7 @@ import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
 import com.example.admin.sdosandroidcars.api.APICallbackListener;
 import com.example.admin.sdosandroidcars.api.info.Filter;
+import com.example.admin.sdosandroidcars.api.info.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +25,7 @@ public class Cars {
 
     private Cars() {}
 
-    public static void doGetCars(Filter filter, final FilteredCarsResultListener crs) {
+    public static void doGetCars(Request filter, final FilteredCarsResultListener crs) {
         Log.d(TAG, "doGetCars() cridat");
 
         APICall getCarsCall = new APICall("POST", GET_CARS_URL);

@@ -28,35 +28,49 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:visibility="gone"
-        android:id="@+id/dataLayout">
-
-        <TextView
-            android:text="@string/makers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
-
-        <ListView
-            android:id="@+id/makers_list"
+        android:id="@+id/dataLayoutParent">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:id="@+id/dataLayoutMakers">
 
-        <TextView
-            android:text="@string/colors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" />
+            <TextView
+                android:text="@string/makers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
 
-        <ListView
+            <ListView
+                android:id="@+id/makers_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/colors_list"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:id="@+id/dataLayoutColors">
+
+            <TextView
+                android:text="@string/colors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/colors_list"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

@@ -26,7 +26,7 @@ import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
 import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.example.admin.sdosandroidcars.api.cars.Cars;
 import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
-import com.example.admin.sdosandroidcars.api.info.Element;
+import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
@@ -38,9 +38,6 @@ import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.admin.sdosandroidcars.R.id.gridView;
-import static java.security.AccessController.getContext;
-
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,7 +47,9 @@ public class Drawer extends AppCompatActivity
     private NavigationView nav;
     private Menu menu;
 
+    private DrawerLayout drawer;
     private GridView gridView;
+    public static int gridItemDimension = 0;
     private GridViewAdapter gridAdapter;
 
     @Override
@@ -69,7 +68,7 @@ public class Drawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -77,13 +76,22 @@ public class Drawer extends AppCompatActivity
 
         gridView = (GridView) findViewById(R.id.gridView);
 
-
         nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
         menu = nav.getMenu();
 
         // Inicialitza el filter
         doGetCars();
+    }
+
+    public void onResume() {
+        super.onResume();
+        gridItemDimension = drawer.getWidth() / 2;
+    }
+
+    public void onStart() {
+        super.onStart();
+        gridItemDimension = drawer.getWidth() / 2;
     }
 
     @Override
@@ -143,8 +151,11 @@ public class Drawer extends AppCompatActivity
         getFilter(new FilterAvailableListener() {
             @Override
             public void onFilterAvailable(Filter filter) {
+
+                Request carsRequest = new Request(filter.getSelected(), 0, 20);
+
                 Log.d(TAG, "Filter inicials descarregats");
-                Cars.doGetCars(filter.getSelected(), new FilteredCarsResultListener() {
+                Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
                     @Override
                     public void onCarsResult(ArrayList<Car> cars) {
                         Log.d(TAG, "DoGetCars cridat");

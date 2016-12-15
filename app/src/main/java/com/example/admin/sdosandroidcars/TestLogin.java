@@ -14,6 +14,7 @@ import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
+import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.api.login.Login;
 import com.example.admin.sdosandroidcars.api.login.LoginResultListener;
 import com.example.admin.sdosandroidcars.api.login.Signup;
@@ -147,7 +148,7 @@ public class TestLogin extends PermissionManager implements View.OnClickListener
 
             final TestLogin self = this;
             try {
-                Cars.doGetCars(new Filter(), new FilteredCarsResultListener() {
+                Cars.doGetCars(new Request(new Filter(),0,3), new FilteredCarsResultListener() {
                     @Override
                     public void onCarsResult(ArrayList<Car> cars) {
                         String show = cars.toString();
