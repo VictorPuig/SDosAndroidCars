@@ -42,27 +42,29 @@ public class Cars {
                     crs.onCarsResult(null);
                 else {
                     ArrayList<Car> cars = new ArrayList<>();
+                    if (json.optJSONObject("err") == null) {
+                        JSONArray rows = json.optJSONArray("rows");
 
-                    JSONArray rows = json.optJSONArray("rows");
+                        for (int i = 0; i < rows.length(); i++) {
+                            JSONObject car = rows.optJSONObject(i);
 
-                    for (int i = 0; i < rows.length(); i++) {
-                        JSONObject car = rows.optJSONObject(i);
+                            try {
+                                int id = car.getInt("id");
+                                String name = car.getString("name");
+                                String color = car.getJSONObject("color").getString("name");
+                                String maker = car.getJSONObject("maker").getString("name");
+                                String url = car.getString("url");
 
-                        try {
-                            int id = car.getInt("id");
-                            String name = car.getString("name");
-                            String color = car.getJSONObject("color").getString("name");
-                            String maker = car.getJSONObject("maker").getString("name");
-                            String url = car.getString("url");
-
-                            cars.add(new Car(id, name, color, maker, url));
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error instanciant Car a partir de json");
-                            e.printStackTrace();
+                                cars.add(new Car(id, name, color, maker, url));
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error instanciant Car a partir de json");
+                                e.printStackTrace();
+                            }
                         }
+                        crs.onCarsResult(cars);
                     }
-
-                    crs.onCarsResult(cars);
+                    else
+                        crs.onCarsResult(null);
                 }
             }
         });

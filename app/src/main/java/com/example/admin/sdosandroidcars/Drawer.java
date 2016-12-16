@@ -39,18 +39,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Drawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FilterAvailableListener {
 
     private static final String TAG = "Drawer";
     public int activityColor = 0;
+
     public Filter filter;
+    public Filter filterAux;
+
     private NavigationView nav;
     private Menu menu;
 
     private DrawerLayout drawer;
     private GridView gridView;
-    public static int gridItemDimension = 0;
-    private GridViewAdapter gridAdapter;
+    public int retryCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +83,7 @@ public class Drawer extends AppCompatActivity
         menu = nav.getMenu();
 
         // Inicialitza el filter
-        doGetCars();
-    }
-
-    public void onResume() {
-        super.onResume();
-        gridItemDimension = drawer.getWidth() / 2;
-    }
-
-    public void onStart() {
-        super.onStart();
-        gridItemDimension = drawer.getWidth() / 2;
+        getFilter(this);
     }
 
     @Override
@@ -147,41 +139,34 @@ public class Drawer extends AppCompatActivity
     //TODO Si el filtre no ha cambiat, retornem sense cridar APICALL
     //TODO Instanciar 2 filtres, un auxiliar per compararlo amb l'altre, si son iguals, no cridem a getCars, si son diferents, cridem a getCars
     //TODO Implementar metode equals per comparar els dos filtres
+
     public void doGetCars () {
-        getFilter(new FilterAvailableListener() {
+        Request carsRequest = new Request(filter.getSelected(), 0, 20);
+
+        Log.d(TAG, "Filter inicials descarregats");
+        Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
             @Override
-            public void onFilterAvailable(Filter filter) {
+            public void onCarsResult(ArrayList<Car> cars) {
+                Log.d(TAG, "DoGetCars cridat");
 
-                Request carsRequest = new Request(filter.getSelected(), 0, 20);
-
-                Log.d(TAG, "Filter inicials descarregats");
-                Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
-                    @Override
-                    public void onCarsResult(ArrayList<Car> cars) {
-                        Log.d(TAG, "DoGetCars cridat");
-
-                        if (cars == null) {
-                            Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
-                            ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
-
-
-                            return;
-                        }
-                        else {
-                            findViewById(R.id.statusCarsView).setVisibility(View.GONE);
-                            ArrayList<String> urls = new ArrayList();
-                            for (Car car : cars) {
-                                urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
-                            }
-
-                            for (String url : urls)
-                                Log.d("URLS", "url: " + url);
-
-                            GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
-                            gridView.setAdapter(gridViewAdapter);
-                        }
+                if (cars == null) {
+                    Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
+                    ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
+                    return;
+                }
+                else {
+                    findViewById(R.id.statusCarsView).setVisibility(View.GONE);
+                    ArrayList<String> urls = new ArrayList();
+                    for (Car car : cars) {
+                        urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
                     }
-                });
+
+                    for (String url : urls)
+                        Log.d("URLS", "url: " + url);
+
+                    GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
+                    gridView.setAdapter(gridViewAdapter);
+                }
             }
         });
     }
@@ -259,7 +244,6 @@ public class Drawer extends AppCompatActivity
         Log.d(TAG, ".getFilter() cridat");
 
         final Drawer self = this;
-
         //Si el filtre encara no s'ha descarregat
         if (filter == null || filter.isEmpty()) {
             //Cridem al metode static doGetiInfo que ens retorna un filtre
@@ -270,6 +254,8 @@ public class Drawer extends AppCompatActivity
                     self.setFilter(filter);
                     //Avisem que ja tenim un filtre disponible i el pasem
                     filterAvailableListener.onFilterAvailable(filter);
+                    if (self != filterAvailableListener)
+                        self.onFilterAvailable(filter);
                 }
             });
         }
@@ -278,6 +264,23 @@ public class Drawer extends AppCompatActivity
         else {
             Log.d(TAG, "Ja tenim els filters descarregats. Cridant listener");
             filterAvailableListener.onFilterAvailable(filter);
+            if (self != filterAvailableListener)
+                self.onFilterAvailable(filter);
         }
+    }
+
+    @Override
+    public void onFilterAvailable(Filter filter) {
+
+
+        if (filter.isEmpty() && retryCount <= 2) {
+            retryCount++;
+            getFilter(this);
+        }
+        else {
+            retryCount = 0;
+            doGetCars();
+        }
+
     }
 }
