@@ -1,8 +1,5 @@
 package com.example.admin.sdosandroidcars.fragments;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.R;
@@ -32,15 +28,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Login");
 
-        Button btnCancel = (Button) getView().findViewById(R.id.buttonLoginCancel);
         Button btnOk = (Button) getView().findViewById(R.id.buttonLoginOk);
-
-        btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
 
         Drawer mydrawer = (Drawer)getActivity();
         getView().setBackgroundColor(mydrawer.activityColor);
         getView().setClickable(true);
+
+
 
     }
 
@@ -49,8 +44,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
 
         switch (id) {
-            case R.id.buttonLoginCancel:
-                ((Drawer) getActivity()).show();
+            case R.id.buttonLoginOk:
+
                 break;
         }
     }

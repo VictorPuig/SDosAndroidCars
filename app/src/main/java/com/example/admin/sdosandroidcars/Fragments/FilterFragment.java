@@ -35,7 +35,6 @@ public class FilterFragment extends Fragment {
         getView().setBackgroundColor(mydrawer.activityColor);
         getView().setClickable(true);
 
-
         ((Drawer) getActivity()).getFilter(new FilterAvailableListener() {
             @Override
             public void onFilterAvailable(Filter filter) {

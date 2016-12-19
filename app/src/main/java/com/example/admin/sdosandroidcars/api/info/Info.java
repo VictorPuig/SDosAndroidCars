@@ -22,11 +22,11 @@ public class Info {
     public static void doGetInfo(final InfoResultListener infoResultListener) {
         Log.d(TAG, "doGetInfo started");
 
-        APICall signupCall = new APICall(INFO_URL);
+        APICall infoCall = new APICall(INFO_URL);
 
         //Listener per fer algo quan acaba l'async task d'ApiCall
         //setOnAPICallbackListener crida a Info quan ha acabat
-        signupCall.setOnAPICallbackListener(new APICallbackListener() {
+        infoCall.setOnAPICallbackListener(new APICallbackListener() {
             @Override
             //Metode que s'executara un cop hagui finalitzat l'async task d'ApiCall
             public void onAPICallback(JSONObject json) {
@@ -35,12 +35,13 @@ public class Info {
                 //Creació del filter
                 Filter filter = new Filter();
 
-                //Si no ha retornat json vol dir que ja tenim el filtre???
+                //Si el json que retorna el servidor es null, tornem enrere amb un null com a resposta (filter==null)
                 if (json == null) {
                     infoResultListener.onInfoResult(filter);
                     return;
                 }
 
+                //Si el json resposta del servidor no conte error ("err")
                 if (json.optJSONObject("err")==null) {
                     //colors conte la array de colors del json retornat del servidor
                     JSONArray colors = json.optJSONArray("color");
@@ -70,11 +71,11 @@ public class Info {
                         filter.addMaker(makerEl);
                     }
                 }
-                //Avisem a Drawer (main) que ja ha acabat l'execucio i li pasem el filter amb les objectes demanats al servidor
+                //Avisem al listener de doGetInfo (infoResultListener) que ja ha acabat l'execucio i li pasem el filter amb les objectes demanats al servidor
                 infoResultListener.onInfoResult(filter);
             }
         });
         //Execució del metode doAPICall que executa el post /getInfo demanant les dades del filter
-        signupCall.doAPICall();
+        infoCall.doAPICall();
     }
 }

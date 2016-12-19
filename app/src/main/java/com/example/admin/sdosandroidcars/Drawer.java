@@ -30,10 +30,10 @@ import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
-import com.example.admin.sdosandroidcars.fragments.LogoutFragment;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
+import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,8 +188,8 @@ public class Drawer extends AppCompatActivity
                 fragment = new LoginFragment();
                 uncheckMenuItems();
                 break;
-            case R.id.nav_logout:
-                fragment = new LogoutFragment();
+            case R.id.nav_signup:
+                fragment = new SignupFragment();
                 uncheckMenuItems();
                 break;
         }

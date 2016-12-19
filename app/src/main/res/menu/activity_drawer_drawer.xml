@@ -23,7 +23,10 @@
             android:title="@string/login" />
         <item
             android:id="@+id/nav_logout"
-            android:title="@string/logout" />
+            android:title="@string/logout"></item>
+        <item
+            android:id="@+id/nav_signup"
+            android:title="@string/signup" />
     </group>
 
 </menu>

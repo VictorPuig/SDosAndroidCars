@@ -3,25 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="@string/cancel"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="12dp"
-        android:id="@+id/buttonLoginCancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_below="@+id/loginName"
+        android:layout_alignRight="@+id/loginName"
+        android:layout_alignEnd="@+id/loginName"
+        android:layout_marginTop="30dp"
+        android:id="@+id/loginPwd"
+        android:hint="Password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="151dp"
+        android:id="@+id/loginName"
+        android:hint="Username"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="@string/ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonLoginOk"
-        android:layout_alignBaseline="@+id/buttonLoginCancel"
-        android:layout_alignBottom="@+id/buttonLoginCancel"
-        android:layout_toLeftOf="@+id/buttonLoginCancel"
-        android:layout_toStartOf="@+id/buttonLoginCancel" />
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/loginPwd"
+        android:layout_alignRight="@+id/loginPwd"
+        android:layout_alignEnd="@+id/loginPwd" />
 </RelativeLayout>

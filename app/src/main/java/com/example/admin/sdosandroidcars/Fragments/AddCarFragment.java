@@ -28,11 +28,10 @@ public class AddCarFragment extends Fragment implements View.OnClickListener {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("AddCar");
 
-        Button btnCancel = (Button) getView().findViewById(R.id.buttonAddCarsCancel);
         Button btnOk = (Button) getView().findViewById(R.id.buttonAddCarsOk);
-
-        btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+
+
 
         Drawer mydrawer = (Drawer)getActivity();
         getView().setBackgroundColor(mydrawer.activityColor);
@@ -44,8 +43,8 @@ public class AddCarFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
 
         switch (id) {
-            case R.id.buttonAddCarsCancel:
-                ((Drawer) getActivity()).show();
+            case R.id.buttonAddCarsOk:
+
                 break;
         }
     }

@@ -15,6 +15,7 @@
     <string name="loading">Loading…</string>
     <string name="gallery">Gallery</string>
     <string name="login">Login</string>
+    <string name="signup">Signup</string>
     <string name="logout">Logout</string>
     <string name="add_new_car">Add new Car</string>
 </resources>
