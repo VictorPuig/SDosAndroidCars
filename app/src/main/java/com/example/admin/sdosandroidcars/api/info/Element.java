@@ -46,6 +46,16 @@ public class Element {
         setSelected(false);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Element) {
+            Element e = (Element) obj;
+
+            return id == e.getId() && name.equals(e.getName());
+
+        } else return false;
+    }
+
     //Crea un nou objecte Json amb la id, nom i boolean selected del element
     public JSONObject getJSONObject() {
         JSONObject obj = new JSONObject();
@@ -53,7 +63,7 @@ public class Element {
         try {
             obj.put("id", getId());
             obj.put("name", getName());
-            obj.put("selected", isSelected());
+            obj.put("seleccionat", isSelected());
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

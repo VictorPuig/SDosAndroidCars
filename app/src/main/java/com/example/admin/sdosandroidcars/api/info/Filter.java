@@ -95,6 +95,16 @@ public class Filter {
         return makers;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Filter) {
+            Filter f = (Filter) obj;
+
+            return getColors().equals(f.getColors()) && getMakers().equals(f.getMakers());
+
+        } else return false;
+    }
+
     //Crea un nou objecte Json amb dos arrays d'objectes Json (1 array de makers i 1 array de colors)
     public JSONObject getJSONObject() {
         JSONObject obj = new JSONObject();

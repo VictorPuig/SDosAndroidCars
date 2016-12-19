@@ -45,7 +45,7 @@ public class Drawer extends AppCompatActivity
     public int activityColor = 0;
 
     public Filter filter;
-    public Filter filterAux;
+    public Filter selectedFilter;
 
     private NavigationView nav;
     private Menu menu;
@@ -136,12 +136,10 @@ public class Drawer extends AppCompatActivity
             menu.getItem(i).setChecked(false);
     }
 
-    //TODO Si el filtre no ha cambiat, retornem sense cridar APICALL
-    //TODO Instanciar 2 filtres, un auxiliar per compararlo amb l'altre, si son iguals, no cridem a getCars, si son diferents, cridem a getCars
-    //TODO Implementar metode equals per comparar els dos filtres
-
     public void doGetCars () {
-        Request carsRequest = new Request(filter.getSelected(), 0, 20);
+        Request carsRequest = new Request(selectedFilter, 0, 20);  //TODO: Limit dinamic
+
+        Log.d(TAG, "Request json:" + carsRequest.getJSONObject().toString());
 
         Log.d(TAG, "Filter inicials descarregats");
         Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
@@ -152,11 +150,10 @@ public class Drawer extends AppCompatActivity
                 if (cars == null) {
                     Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
                     ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
-                    return;
                 }
                 else {
                     findViewById(R.id.statusCarsView).setVisibility(View.GONE);
-                    ArrayList<String> urls = new ArrayList();
+                    ArrayList<String> urls = new ArrayList<>();
                     for (Car car : cars) {
                         urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
                     }
@@ -232,12 +229,22 @@ public class Drawer extends AppCompatActivity
         uncheckMenuItems();
         menu.getItem(0).setChecked(true);
 
+        if (!filter.getSelected().equals(selectedFilter)) {
+            selectedFilter = filter.getSelected();
+            doGetCars();
+        }
+
         return fragmentRemoved;
     }
 
     public void setFilter(Filter filter) {
         Log.d(TAG, "Filters actualitzats");
         this.filter = filter;
+
+        if (selectedFilter == null) {
+            selectedFilter = filter.getSelected();
+            doGetCars();
+        }
     }
 
     public void getFilter (final FilterAvailableListener filterAvailableListener) {
@@ -271,16 +278,12 @@ public class Drawer extends AppCompatActivity
 
     @Override
     public void onFilterAvailable(Filter filter) {
-
-
         if (filter.isEmpty() && retryCount <= 2) {
             retryCount++;
             getFilter(this);
         }
         else {
             retryCount = 0;
-            doGetCars();
         }
-
     }
 }
