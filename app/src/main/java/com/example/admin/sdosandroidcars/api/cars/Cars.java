@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
 import com.example.admin.sdosandroidcars.api.APICallbackListener;
-import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Request;
 
 import org.json.JSONArray;

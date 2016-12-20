@@ -1,10 +1,12 @@
 package com.example.admin.sdosandroidcars;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.example.admin.sdosandroidcars.api.cars.Cars;
 import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
 import com.example.admin.sdosandroidcars.api.info.Request;
+import com.example.admin.sdosandroidcars.api.login.SessionManager;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
@@ -53,12 +57,14 @@ public class Drawer extends AppCompatActivity
     private DrawerLayout drawer;
     private GridView gridView;
     public int retryCount = 0;
-
+    public SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_drawer);
+
+        sessionManager = new SessionManager(this);
 
         Drawable background = getWindow().getDecorView().getBackground();
 
@@ -71,8 +77,22 @@ public class Drawer extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+                public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                    View view = getWindow().getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                invalidateOptionsMenu();
+            }
+
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -125,7 +145,7 @@ public class Drawer extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         displaySelectedScreen(item.getItemId());
         return true;
     }
@@ -182,16 +202,39 @@ public class Drawer extends AppCompatActivity
                 fragment = new FilterFragment();
                 break;
             case R.id.nav_addCar:
-                fragment = new AddCarFragment();
+                if (!SessionManager.isLoggedIn()) {
+                    fragment = new AddCarFragment();
+                }
+                else {
+                    Toast.makeText(this, "You must logIn to add a new car", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.nav_login:
-                fragment = new LoginFragment();
-                uncheckMenuItems();
+                if (!SessionManager.isLoggedIn()) {
+                    fragment = new LoginFragment();
+                    uncheckMenuItems();
+                }
+                else {
+                    Toast.makeText(this, "Already loged in, Try logout first", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.nav_signup:
-                fragment = new SignupFragment();
-                uncheckMenuItems();
+                if (!SessionManager.isLoggedIn()) {
+                    fragment = new SignupFragment();
+                    uncheckMenuItems();
+                }
+                else {
+                    Toast.makeText(this, "Already loged in, Try logout first", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
+            case R.id.nav_logout:
+                SessionManager.logoutUser();
+                Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
+                show();
+
         }
 
         //replacing the fragment
