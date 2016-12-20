@@ -2,7 +2,6 @@ package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.sdosandroidcars.Drawer;
-import com.example.admin.sdosandroidcars.adapters.FilterElementAdapter;
 import com.example.admin.sdosandroidcars.FilterAvailableListener;
 import com.example.admin.sdosandroidcars.R;
+import com.example.admin.sdosandroidcars.adapters.FilterElementAdapter;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 
-public class FilterFragment extends Fragment {
+public class FilterFragment extends BaseFragment {
 
-    private static final String TAG = "FilterFragment";
+    private static final String TAG = "Filter";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
@@ -30,10 +29,6 @@ public class FilterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Filter");
-
-        Drawer mydrawer = (Drawer)getActivity();
-        getView().setBackgroundColor(mydrawer.activityColor);
-        getView().setClickable(true);
 
         ((Drawer) getActivity()).getFilter(new FilterAvailableListener() {
             @Override

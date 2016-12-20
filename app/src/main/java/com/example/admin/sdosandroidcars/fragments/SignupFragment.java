@@ -1,17 +1,17 @@
 package com.example.admin.sdosandroidcars.fragments;
 
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.R;
 
-public class SignupFragment extends Fragment implements View.OnClickListener {
+public class SignupFragment extends BaseFragment implements View.OnClickListener {
+
+    String TAG = "SignUp";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
@@ -21,12 +21,6 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("SignUp");
-
-        Drawer mydrawer = (Drawer)getActivity();
-        getView().setBackgroundColor(mydrawer.activityColor);
-        getView().setClickable(true);
     }
 
     @Override
