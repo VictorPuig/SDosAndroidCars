@@ -9,7 +9,7 @@ public class Car {
     private String maker;
     private String imgUrl;
 
-    Car(int id, String name, String color, String maker, String imgUrl) {
+    public Car(int id, String name, String color, String maker, String imgUrl) {
         this.id = id;
         this.name = name;
         this.color = color;

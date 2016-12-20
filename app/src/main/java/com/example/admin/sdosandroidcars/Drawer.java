@@ -252,7 +252,7 @@ public class Drawer extends AppCompatActivity
 
         final Drawer self = this;
         //Si el filtre encara no s'ha descarregat
-        if (filter == null || filter.isEmpty()) {
+        if (filter == null || filter.isEmpty() || true) {  // True es per que sempre entri #HACKS
             //Cridem al metode static doGetiInfo que ens retorna un filtre
             Info.doGetInfo(new InfoResultListener() {
                 @Override
@@ -261,8 +261,8 @@ public class Drawer extends AppCompatActivity
                     self.setFilter(filter);
                     //Avisem que ja tenim un filtre disponible i el pasem
                     filterAvailableListener.onFilterAvailable(filter);
-                    if (self != filterAvailableListener)
-                        self.onFilterAvailable(filter);
+                    /*if (self != filterAvailableListener)
+                        self.onFilterAvailable(filter);*/
                 }
             });
         }
@@ -271,8 +271,8 @@ public class Drawer extends AppCompatActivity
         else {
             Log.d(TAG, "Ja tenim els filters descarregats. Cridant listener");
             filterAvailableListener.onFilterAvailable(filter);
-            if (self != filterAvailableListener)
-                self.onFilterAvailable(filter);
+            /*if (self != filterAvailableListener)
+                self.onFilterAvailable(filter);*/
         }
     }
 

@@ -1,41 +1,31 @@
 package com.example.admin.sdosandroidcars.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by Admin on 07/12/2016.
- */
-
-public class GridViewAdapter extends ArrayAdapter {
+public class GridViewAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private int layoutResourceId;
-    private ArrayList data = new ArrayList();
 
-    public GridViewAdapter(Context context, int layoutResourceId, ArrayList data) {
+    public GridViewAdapter(Context context, int layoutResourceId, ArrayList<String> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = data;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
 
         if (row == null) {

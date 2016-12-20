@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.admin.sdosandroidcars.Constants;
 import com.example.admin.sdosandroidcars.api.APICall;
 import com.example.admin.sdosandroidcars.api.APICallbackListener;
-import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Request;
 
 import org.json.JSONArray;
@@ -71,7 +70,7 @@ public class Cars {
         getCarsCall.doAPICall();
     }
 
-    public static void doAddMaker(JSONObject makerJson, final CarsResultListener crs) throws Exception {
+    public static void doAddMaker(JSONObject makerJson, final CarsResultListener crs) {
         Log.d(TAG, "doAddMaker started");
 
         APICall addMakerCall = new APICall("POST", MAKER_URL);
@@ -88,7 +87,7 @@ public class Cars {
         addMakerCall.doAPICall();
     }
 
-    public static void doAddColor(JSONObject colorJson, final CarsResultListener crs) throws Exception {
+    public static void doAddColor(JSONObject colorJson, final CarsResultListener crs) {
         Log.d(TAG, "doAddColor started");
 
         APICall addMakerCall = new APICall("POST", COLOR_URL);
@@ -105,7 +104,7 @@ public class Cars {
         addMakerCall.doAPICall();
     }
 
-    public static void doAddCar(JSONObject carJson, final CarsResultListener crs) throws Exception {
+    public static void doAddCar(JSONObject carJson, final CarsResultListener crs) {
         Log.d(TAG, "doAddCar started");
 
         APICall addMakerCall = new APICall("POST", CAR_URL);
