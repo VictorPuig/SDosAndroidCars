@@ -44,7 +44,6 @@ public class Signup implements APICallbackListener {
         }
 
         signupCall.setRequestJson(outputJson);
-        //this (Login) sera a qui crida APICall al acabar una peticio
         signupCall.setOnAPICallbackListener(this);
         signupCall.doAPICall();
     }

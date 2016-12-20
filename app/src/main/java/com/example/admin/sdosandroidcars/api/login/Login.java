@@ -40,11 +40,10 @@ public class Login implements APICallbackListener {
             outputJson.put("password", password);
         } catch (JSONException e) {
             Log.e(TAG, "Json error mentre es construia el l'objecte per enviar");
-            e.printStackTrace(); //TODO: cridar el callback amb null
+            e.printStackTrace();
         }
 
         loginCall.setRequestJson(outputJson);
-        //this (Login) sera a qui crida APICall al acabar una peticio
         loginCall.setOnAPICallbackListener(this);
         loginCall.doAPICall();
     }
