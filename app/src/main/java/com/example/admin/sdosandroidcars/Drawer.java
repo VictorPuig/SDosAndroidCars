@@ -202,7 +202,7 @@ public class Drawer extends AppCompatActivity
                 fragment = new FilterFragment();
                 break;
             case R.id.nav_addCar:
-                if (!SessionManager.isLoggedIn()) {
+                if (SessionManager.isLoggedIn()) {
                     fragment = new AddCarFragment();
                 }
                 else {
@@ -272,7 +272,7 @@ public class Drawer extends AppCompatActivity
         uncheckMenuItems();
         menu.getItem(0).setChecked(true);
 
-        if (!filter.getSelected().equals(selectedFilter)) {
+        if (!filter.getSelected().equals(selectedFilter) && filter.getSelected()!=null) {
             selectedFilter = filter.getSelected();
             doGetCars();
         }

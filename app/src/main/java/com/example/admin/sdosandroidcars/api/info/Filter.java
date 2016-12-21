@@ -127,4 +127,40 @@ public class Filter {
 
         return obj;
     }
+
+    public ArrayList<String> getStringColorJson (JSONObject json) {
+
+        JSONArray colorArray = new JSONArray();
+        for (Element e : colors)
+            colorArray.put(e.getJSONObject());
+
+        ArrayList<String> colorString = new ArrayList<>();
+
+        for (int i = 0; i < colorArray.length(); i++) {
+            try {
+                colorString.add(colorArray.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return colorString;
+    }
+
+    public ArrayList<String> getStringMakerJson (JSONObject json) {
+
+        JSONArray makerArray = new JSONArray();
+        for (Element e : makers)
+            makerArray.put(e.getJSONObject());
+
+        ArrayList<String> makerString = new ArrayList<>();
+
+        for (int i = 0; i < makerArray.length(); i++) {
+            try {
+                makerString.add(makerArray.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return makerString;
+    }
 }
