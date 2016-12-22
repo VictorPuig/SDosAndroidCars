@@ -29,14 +29,14 @@ import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
 import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.example.admin.sdosandroidcars.api.cars.Cars;
 import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
+import com.example.admin.sdosandroidcars.api.info.Filter;
+import com.example.admin.sdosandroidcars.api.info.Info;
+import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.api.login.SessionManager;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
-import com.example.admin.sdosandroidcars.api.info.Filter;
-import com.example.admin.sdosandroidcars.api.info.Info;
-import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
 import java.util.ArrayList;
@@ -202,7 +202,7 @@ public class Drawer extends AppCompatActivity
                 fragment = new FilterFragment();
                 break;
             case R.id.nav_addCar:
-                if (!SessionManager.isLoggedIn()) {
+                if (SessionManager.isLoggedIn()) {
                     fragment = new AddCarFragment();
                 }
                 else {
@@ -232,7 +232,10 @@ public class Drawer extends AppCompatActivity
                 break;
             case R.id.nav_logout:
                 SessionManager.logoutUser();
-                Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
+                if (SessionManager.isLoggedIn())
+                    Toast.makeText(this, "You are already signed in", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
                 show();
 
         }
