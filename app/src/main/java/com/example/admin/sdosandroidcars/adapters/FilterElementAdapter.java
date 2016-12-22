@@ -1,40 +1,100 @@
 package com.example.admin.sdosandroidcars.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.graphics.Typeface;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
+import com.example.admin.sdosandroidcars.R;
 import com.example.admin.sdosandroidcars.api.info.Element;
+import com.example.admin.sdosandroidcars.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-public class FilterElementAdapter extends ArrayAdapter<Element> {
+public class FilterElementAdapter extends BaseExpandableListAdapter {
 
-    public FilterElementAdapter(Context context, ArrayList<Element> elements) {
-        super(context, 0, elements );
+    private Context context;
+    private HashMap<String, ArrayList<Element>> elements;
+
+    public FilterElementAdapter(Context context, HashMap<String, ArrayList<Element>> elements) {
+        this.context = context;
+        this.elements = elements;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final Element element = getItem(position);
+    public int getGroupCount() {
+        return this.elements.size();
+    }
 
+    @Override
+    public int getChildrenCount(int listPosition) {
+        return this.elements.get(getGroup(listPosition)).size();
+    }
+
+    @Override
+    public String getGroup(int listPosition) {
+        return (String) this.elements.keySet().toArray()[listPosition];
+    }
+
+    @Override
+    public Object getChild(int listPosition, int expandedListPosition) {
+        return this.elements.get(getGroup(listPosition)).get(expandedListPosition);
+    }
+
+    @Override
+    public long getGroupId(int listPosition) {
+        return listPosition;
+    }
+
+    @Override
+    public long getChildId(int listPosition, int expandedListPosition) {
+        return expandedListPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        String name = StringUtils.titleCase(getGroup(groupPosition));
 
         if (convertView == null) {
-            convertView = new CheckBox(getContext());
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.filter_list_group, parent);
         }
 
-        CheckBox checkBox = (CheckBox) convertView;
+        TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
+        listTitleTextView.setTypeface(null, Typeface.BOLD);
+        listTitleTextView.setText(name);
+        return convertView;
+    }
 
-        checkBox.setWidth(350);
-        checkBox.setHeight(150);
+    @Override
+    public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Log.d("FILTERADAPTER", "getChildView");
+        final Element element = (Element) getChild(listPosition, expandedListPosition);
+
+        if (convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) this.context
+                  .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.filter_list_item, parent);
+        }
+
+        //CheckBox checkBox = (CheckBox) convertView;
+        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkboxFilter);
+        //checkBox.setText(this.elements.get(listPosition).getName());
+
         checkBox.setChecked(element.isSelected());
-        checkBox.setText(element.getName());
+        checkBox.setText(StringUtils.titleCase(element.getName()));
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +108,12 @@ public class FilterElementAdapter extends ArrayAdapter<Element> {
             }
         });
 
-        return  checkBox;
+
+        return convertView;
+    }
+
+    @Override
+    public boolean isChildSelectable(int i, int i1) {
+        return true;
     }
 }

@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/filter"
-        android:id="@+id/textView" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,44 +26,11 @@
         android:orientation="horizontal"
         android:visibility="gone"
         android:id="@+id/dataLayoutParent">
-        <LinearLayout
-            android:orientation="vertical"
+
+        <ExpandableListView
+            android:id="@+id/expandable_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/dataLayoutMakers">
-
-            <TextView
-                android:text="@string/makers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView3" />
-
-            <ListView
-                android:id="@+id/makers_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/dataLayoutColors">
-
-            <TextView
-                android:text="@string/colors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2" />
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/colors_list"
-                android:layout_weight="1" />
-        </LinearLayout>
+            android:paddingTop="20dp" />
     </LinearLayout>
 </LinearLayout>
