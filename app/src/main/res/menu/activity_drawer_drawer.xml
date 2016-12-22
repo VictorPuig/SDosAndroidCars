@@ -23,7 +23,7 @@
             android:title="@string/login" />
         <item
             android:id="@+id/nav_logout"
-            android:title="@string/logout"></item>
+            android:title="@string/logout" />
         <item
             android:id="@+id/nav_signup"
             android:title="@string/signup" />

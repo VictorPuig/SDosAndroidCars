@@ -15,7 +15,8 @@ import com.example.admin.sdosandroidcars.R;
 import com.example.admin.sdosandroidcars.adapters.FilterElementAdapter;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 
-public class FilterFragment extends BaseFragment {
+public class FilterFragment extends BaseFragment implements FilterAvailableListener {
+    Filter filter;
 
     private static final String TAG = "Filter";
 
@@ -30,33 +31,39 @@ public class FilterFragment extends BaseFragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Filter");
 
-        ((Drawer) getActivity()).getFilter(new FilterAvailableListener() {
-            @Override
-            public void onFilterAvailable(Filter filter) {
-                try {
-                    if (filter.isEmpty()) {
-                        Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
-                        ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
+        ((Drawer) getActivity()).getFilter(this);
+    }
 
-                    } else {
-                        ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
-                        ((View) getView().findViewById(R.id.dataLayoutParent)).setVisibility(View.VISIBLE);
+    public void setFilter (Filter filter) {
+        this.filter = filter;
+    }
 
-                        FilterElementAdapter makerAdapter = new FilterElementAdapter(getContext(), filter.getMakers());
+    @Override
+    public void onFilterAvailable(Filter filter) {
+        try {
+            if (filter.isEmpty()) {
+                Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
+                ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
 
-                        ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
-                        makerListView.setAdapter(makerAdapter);
+            } else {
+                ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
+                ((View) getView().findViewById(R.id.dataLayoutParent)).setVisibility(View.VISIBLE);
 
-                        FilterElementAdapter colorAdapter = new FilterElementAdapter(getContext(), filter.getColors());
+                FilterElementAdapter makerAdapter = new FilterElementAdapter(getContext(), filter.getMakers());
 
-                        ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
-                        colorListView.setAdapter(colorAdapter);
-                    }
+                ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
+                makerListView.setAdapter(makerAdapter);
 
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                FilterElementAdapter colorAdapter = new FilterElementAdapter(getContext(), filter.getColors());
+
+                ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
+                colorListView.setAdapter(colorAdapter);
+
+                setFilter(filter);
             }
-        });
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

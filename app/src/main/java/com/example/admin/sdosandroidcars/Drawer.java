@@ -232,7 +232,6 @@ public class Drawer extends AppCompatActivity
                 break;
             case R.id.nav_logout:
                 SessionManager.logoutUser();
-                Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
                 show();
 
         }
@@ -290,12 +289,12 @@ public class Drawer extends AppCompatActivity
         }
     }
 
-    public void getFilter (final FilterAvailableListener filterAvailableListener) {
+    public void getFilter (boolean force, final FilterAvailableListener filterAvailableListener) {
         Log.d(TAG, ".getFilter() cridat");
 
         final Drawer self = this;
         //Si el filtre encara no s'ha descarregat
-        if (filter == null || filter.isEmpty() || true) {  // True es per que sempre entri #HACKS
+        if (filter == null || filter.isEmpty() || force) {  // True es per que sempre entri #HACKS
             //Cridem al metode static doGetiInfo que ens retorna un filtre
             Info.doGetInfo(new InfoResultListener() {
                 @Override
@@ -317,6 +316,10 @@ public class Drawer extends AppCompatActivity
             /*if (self != filterAvailableListener)
                 self.onFilterAvailable(filter);*/
         }
+    }
+
+    public void getFilter(FilterAvailableListener filterAvailableListener) {
+        getFilter(false, filterAvailableListener);
     }
 
     @Override

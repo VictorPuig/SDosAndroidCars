@@ -42,6 +42,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         okBtn = (Button) getView().findViewById(R.id.buttonLoginOk);
         okBtn.setOnClickListener(this);
 
+
         username = (EditText) getView().findViewById(R.id.loginName);
         password = (EditText) getView().findViewById(R.id.loginPwd);
     }
