@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +13,11 @@ import com.example.admin.sdosandroidcars.Drawer;
 import com.example.admin.sdosandroidcars.FilterAvailableListener;
 import com.example.admin.sdosandroidcars.R;
 import com.example.admin.sdosandroidcars.adapters.FilterElementAdapter;
+import com.example.admin.sdosandroidcars.api.info.Element;
 import com.example.admin.sdosandroidcars.api.info.Filter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FilterFragment extends BaseFragment implements FilterAvailableListener {
     Filter filter;
@@ -46,22 +50,17 @@ public class FilterFragment extends BaseFragment implements FilterAvailableListe
                 ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
 
             } else {
-                ((View) getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
-                ((View) getView().findViewById(R.id.dataLayoutParent)).setVisibility(View.VISIBLE);
+                (getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
+                (getView().findViewById(R.id.dataLayoutParent)).setVisibility(View.VISIBLE);
 
-                FilterElementAdapter makerAdapter = new FilterElementAdapter(getContext(), filter.getMakers());
+                HashMap<String, ArrayList<Element>> filterList = new HashMap<>();
+                filterList.put("makers",filter.getMakers());
+                filterList.put("colors",filter.getColors());
 
-                ListView makerListView = (ListView) getView().findViewById(R.id.makers_list);
-                makerListView.setAdapter(makerAdapter);
-
-                FilterElementAdapter colorAdapter = new FilterElementAdapter(getContext(), filter.getColors());
-
-                ListView colorListView = (ListView) getView().findViewById(R.id.colors_list);
-                colorListView.setAdapter(colorAdapter);
-
-                setFilter(filter);
+                FilterElementAdapter expendableListAdapter = new FilterElementAdapter(getContext(),filterList);
+                ExpandableListView expandableListView = (ExpandableListView) getView().findViewById(R.id.expandable_list);
+                expandableListView.setAdapter(expendableListAdapter);
             }
-
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
