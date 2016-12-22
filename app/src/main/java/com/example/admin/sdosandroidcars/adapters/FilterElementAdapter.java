@@ -69,7 +69,7 @@ public class FilterElementAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.filter_list_group, parent);
+            convertView = layoutInflater.inflate(R.layout.filter_list_group, null);
         }
 
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
@@ -80,18 +80,15 @@ public class FilterElementAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Log.d("FILTERADAPTER", "getChildView");
         final Element element = (Element) getChild(listPosition, expandedListPosition);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                   .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.filter_list_item, parent);
+            convertView = layoutInflater.inflate(R.layout.filter_list_item, null);
         }
 
-        //CheckBox checkBox = (CheckBox) convertView;
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkboxFilter);
-        //checkBox.setText(this.elements.get(listPosition).getName());
 
         checkBox.setChecked(element.isSelected());
         checkBox.setText(StringUtils.titleCase(element.getName()));
