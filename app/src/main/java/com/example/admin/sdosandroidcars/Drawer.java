@@ -40,6 +40,7 @@ import com.example.admin.sdosandroidcars.fragments.LoginFragment;
 import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Drawer extends AppCompatActivity
@@ -51,7 +52,7 @@ public class Drawer extends AppCompatActivity
     public Filter filter;
     public Filter selectedFilter;
 
-    private NavigationView nav;
+    public NavigationView nav;
     private Menu menu;
 
     private DrawerLayout drawer;
@@ -102,6 +103,9 @@ public class Drawer extends AppCompatActivity
         nav.setNavigationItemSelectedListener(this);
         menu = nav.getMenu();
 
+        TextView userView = (TextView) nav.getHeaderView(0).findViewById(R.id.userInfo);
+        userView.setText(sessionManager.getuserName());
+
         // Inicialitza el filter
         getFilter(this);
     }
@@ -138,6 +142,10 @@ public class Drawer extends AppCompatActivity
             Intent i = new Intent(this, TestLogin.class);
             startActivity(i);
 
+            return true;
+        }
+        if (id == R.id.reload) {
+            getFilter(this);
             return true;
         }
 

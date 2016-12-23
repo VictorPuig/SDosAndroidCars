@@ -2,11 +2,14 @@ package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.sdosandroidcars.Drawer;
@@ -16,6 +19,8 @@ import com.example.admin.sdosandroidcars.api.login.LoginResultListener;
 import com.example.admin.sdosandroidcars.api.login.SessionManager;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener, LoginResultListener {
 
@@ -43,6 +48,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         okBtn.setOnClickListener(this);
 
 
+
         username = (EditText) getView().findViewById(R.id.loginName);
         password = (EditText) getView().findViewById(R.id.loginPwd);
     }
@@ -65,6 +71,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                                 if (json.optString("err").isEmpty()) {
                                     Toast.makeText(getContext(), "Login Correct", Toast.LENGTH_SHORT).show();
                                     SessionManager.createLoginSession(user,pwd);
+
+                                    NavigationView nav = ((Drawer)getActivity()).nav;
+                                    TextView userView = (TextView) nav.getHeaderView(0).findViewById(R.id.userInfo);
+                                    userView.setText(user);
+
                                     ((Drawer)getActivity()).show();
                                 }
                                 else

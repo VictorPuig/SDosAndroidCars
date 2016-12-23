@@ -10,6 +10,10 @@
         android:title="TestActivity"
         android:orderInCategory="102"
         android:id="@+id/testItem" />
+    <item
+        android:title="Reload"
+        android:orderInCategory="102"
+        android:id="@+id/reload" />
 
 
 </menu>

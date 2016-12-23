@@ -62,6 +62,10 @@ public class SessionManager {
         return user;
     }
 
+    public String getuserName () {
+        return pref.getString("user",null);
+    }
+
     public static boolean isLoggedIn () {
         return pref.getBoolean(IS_LOGIN,false);
     }
