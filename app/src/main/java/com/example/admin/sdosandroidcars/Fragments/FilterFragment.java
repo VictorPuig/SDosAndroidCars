@@ -2,6 +2,7 @@ package com.example.admin.sdosandroidcars.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 public class FilterFragment extends BaseFragment implements FilterAvailableListener {
     Filter filter;
 
-    private static final String TAG = "Filter";
+    private static final String TAG = "FilterFragment";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
@@ -44,6 +45,9 @@ public class FilterFragment extends BaseFragment implements FilterAvailableListe
 
     @Override
     public void onFilterAvailable(Filter filter) {
+
+        Log.d(TAG, "onFilterAvailable cridat");
+
         try {
             if (filter.isEmpty()) {
                 Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();

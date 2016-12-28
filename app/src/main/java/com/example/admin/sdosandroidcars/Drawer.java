@@ -144,16 +144,30 @@ public class Drawer extends AppCompatActivity
             return true;
         }
         if (id == R.id.reload) {
-            getFilter(true,this);
-            //REPINTA EL FRAGMENT
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            if (currentFragment instanceof FilterFragment) {
-                Log.d(TAG, "Repintant fragment actual");
-                FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-                fragTransaction.detach(currentFragment);
-                fragTransaction.attach(currentFragment);
-                fragTransaction.commit();
-            }
+            Log.d(TAG, "Reload option click");
+
+            final Toast t = Toast.makeText(this, "Reloading...", Toast.LENGTH_SHORT);
+            t.show();
+
+            final Drawer self = this;
+            getFilter(true, new FilterAvailableListener() {
+                @Override
+                public void onFilterAvailable(Filter filter) {
+                    t.cancel();
+                    Toast.makeText(self, "Done.", Toast.LENGTH_SHORT).show();
+
+                    //REPINTA EL FRAGMENT
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                    if (currentFragment instanceof FilterFragment) {
+                        Log.d(TAG, "Repintant fragment actual");
+                        FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                        fragTransaction.detach(currentFragment);
+                        fragTransaction.attach(currentFragment);
+                        fragTransaction.commit();
+                    }
+                }
+            });
+
             return true;
         }
 
@@ -312,11 +326,13 @@ public class Drawer extends AppCompatActivity
 
 
     public void getFilter (final boolean force, final FilterAvailableListener filterAvailableListener) {
-        Log.d(TAG, ".getFilter() cridat");
+        Log.d(TAG, ".getFilter(force=" + force + ") cridat");
 
         final Drawer self = this;
         //Si el filtre encara no s'ha descarregat, es buit o forcem la descarrega
-        if (filter == null || filter.isEmpty() || force && !this.filter.equals(selectedFilter)) {
+        if (filter == null || filter.isEmpty() || force) {
+            Log.d(TAG, "Descarregant filters");
+
             //Cridem al metode static doGetiInfo que ens retorna un filtre
             Info.doGetInfo(new InfoResultListener() {
                 @Override
@@ -326,6 +342,7 @@ public class Drawer extends AppCompatActivity
                         Log.d(TAG,"reloading");
                         filter.setSelectedFromFilter(self.filter);
                     }
+
                     self.setFilter(filter);
                     //Avisem que ja tenim un filtre disponible i el pasem
                     filterAvailableListener.onFilterAvailable(filter);

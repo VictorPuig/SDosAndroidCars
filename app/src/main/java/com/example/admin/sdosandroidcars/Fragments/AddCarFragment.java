@@ -129,7 +129,7 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
                                 public void onCarsResult(JSONObject json) {
                                     Toast.makeText(getContext(), "result:" + json.toString(), Toast.LENGTH_SHORT).show();
 
-                                    ((Drawer) getActivity()).getFilter(self);
+                                    ((Drawer) getActivity()).getFilter(true, self);
                                 }
                             });
                         }
@@ -168,7 +168,7 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
                                 public void onCarsResult(JSONObject json) {
                                     Toast.makeText(getContext(), "result:" + json.toString(), Toast.LENGTH_SHORT).show();
 
-                                    ((Drawer) getActivity()).getFilter(self);
+                                    ((Drawer) getActivity()).getFilter(true, self);
                                 }
                             });
                         }
