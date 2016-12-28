@@ -29,16 +29,19 @@ import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
 import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.example.admin.sdosandroidcars.api.cars.Cars;
 import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
+import com.example.admin.sdosandroidcars.api.info.Element;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.api.login.SessionManager;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
+import com.example.admin.sdosandroidcars.fragments.BaseFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
 import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,7 +148,15 @@ public class Drawer extends AppCompatActivity
             return true;
         }
         if (id == R.id.reload) {
-            getFilter(this);
+            getFilter(true,this);
+            //REPINTA EL FRAGMENT
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            if (currentFragment instanceof FilterFragment) {
+                FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                fragTransaction.detach(currentFragment);
+                fragTransaction.attach(currentFragment);
+                fragTransaction.commit();
+            }
             return true;
         }
 
@@ -301,17 +312,23 @@ public class Drawer extends AppCompatActivity
         }
     }
 
-    public void getFilter (boolean force, final FilterAvailableListener filterAvailableListener) {
+
+
+    public void getFilter (final boolean force, final FilterAvailableListener filterAvailableListener) {
         Log.d(TAG, ".getFilter() cridat");
 
         final Drawer self = this;
-        //Si el filtre encara no s'ha descarregat
-        if (filter == null || filter.isEmpty() || force) {  // True es per que sempre entri #HACKS
+        //Si el filtre encara no s'ha descarregat, es buit o forcem la descarrega
+        if (filter == null || filter.isEmpty() || force && !this.filter.equals(selectedFilter)) {
             //Cridem al metode static doGetiInfo que ens retorna un filtre
             Info.doGetInfo(new InfoResultListener() {
                 @Override
                 public void onInfoResult(Filter filter) {
                     //Agafem el filtre retornat i actualitzem el de la clase Drawer (Main)
+                    if (self.filter!=null) {
+                        Log.d(TAG,"reloading");
+                        filter.reloadSelectedFilter(self.filter);
+                    }
                     self.setFilter(filter);
                     //Avisem que ja tenim un filtre disponible i el pasem
                     filterAvailableListener.onFilterAvailable(filter);

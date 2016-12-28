@@ -1,6 +1,8 @@
 package com.example.admin.sdosandroidcars.api.info;
 
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +57,31 @@ public class Filter {
                 return e;
 
         return null;
+    }
+
+    public void reloadSelectedFilter (Filter filter) {
+        String nameSelected;
+        String nameThis;
+        for (int i = 0; i < filter.getSelectedColors().size(); i++) {
+            nameSelected = this.getColors().get(i).getName();
+            nameThis = filter.getSelectedColors().get(i).getName();
+
+            if (nameSelected.equals(nameThis)){
+                this.getColors().get(i).setSelected(true);
+            }
+
+        }
+
+        for (int i = 0; i < filter.getSelectedMakers().size(); i++) {
+            nameSelected = this.getMakers().get(i).getName();
+            nameThis = filter.getSelectedMakers().get(i).getName();
+
+            if (nameSelected.equals(nameThis)){
+                this.getMakers().get(i).setSelected(true);
+            }
+
+        }
+
     }
 
     public ArrayList<Element> getSelectedColors() {
