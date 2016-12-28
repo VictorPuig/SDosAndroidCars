@@ -150,23 +150,27 @@ public class Drawer extends AppCompatActivity
             t.show();
 
             final Drawer self = this;
-            getFilter(true, new FilterAvailableListener() {
-                @Override
-                public void onFilterAvailable(Filter filter) {
-                    t.cancel();
-                    Toast.makeText(self, "Done.", Toast.LENGTH_SHORT).show();
 
-                    //REPINTA EL FRAGMENT
-                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                    if (currentFragment instanceof FilterFragment) {
+            final Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            if (currentFragment instanceof FilterFragment) {
+                getFilter(true, new FilterAvailableListener() {
+                    @Override
+                    public void onFilterAvailable(Filter filter) {
+                        t.cancel();
+                        Toast.makeText(self, "Done.", Toast.LENGTH_SHORT).show();
+
+                        //REPINTA EL FRAGMENT
+
                         Log.d(TAG, "Repintant fragment actual");
                         FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
                         fragTransaction.detach(currentFragment);
                         fragTransaction.attach(currentFragment);
                         fragTransaction.commit();
-                    }
-                }
-            });
+                        }
+                });
+            } else if (currentFragment == null) {
+                doGetCars();
+            }
 
             return true;
         }
