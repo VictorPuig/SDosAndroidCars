@@ -185,7 +185,7 @@ public class Drawer extends AppCompatActivity
 
                 if (cars == null) {
                     Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
-                    ((TextView) findViewById(R.id.statusCarsView)).setText("Error");
+                    ((TextView) findViewById(R.id.statusCarsView)).setText(R.string.error);
                 }
                 else {
                     findViewById(R.id.statusCarsView).setVisibility(View.GONE);

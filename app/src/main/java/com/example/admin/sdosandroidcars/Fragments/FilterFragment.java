@@ -47,7 +47,7 @@ public class FilterFragment extends BaseFragment implements FilterAvailableListe
         try {
             if (filter.isEmpty()) {
                 Toast.makeText(getContext(), "No hi ha filter!", Toast.LENGTH_SHORT).show();
-                ((TextView) getView().findViewById(R.id.statusTextView)).setText("Error");
+                ((TextView) getView().findViewById(R.id.statusTextView)).setText(R.string.error);
 
             } else {
                 (getView().findViewById(R.id.loadingLayout)).setVisibility(View.GONE);
