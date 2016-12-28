@@ -1,8 +1,6 @@
 package com.example.admin.sdosandroidcars.api.info;
 
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +8,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Filter {
+
+    String TAG = "Filter";
 
     private ArrayList<Element> colors;
     private ArrayList<Element> makers;
@@ -59,28 +59,12 @@ public class Filter {
         return null;
     }
 
-    public void reloadSelectedFilter (Filter filter) {
-        String nameSelected;
-        String nameThis;
-        for (int i = 0; i < filter.getSelectedColors().size(); i++) {
-            nameSelected = this.getColors().get(i).getName();
-            nameThis = filter.getSelectedColors().get(i).getName();
+    public void setSelectedFromFilter(Filter filter) {
+        for (Element e : filter.getSelectedMakers())
+            findMakerById(e.getId()).select();
 
-            if (nameSelected.equals(nameThis)){
-                this.getColors().get(i).setSelected(true);
-            }
-
-        }
-
-        for (int i = 0; i < filter.getSelectedMakers().size(); i++) {
-            nameSelected = this.getMakers().get(i).getName();
-            nameThis = filter.getSelectedMakers().get(i).getName();
-
-            if (nameSelected.equals(nameThis)){
-                this.getMakers().get(i).setSelected(true);
-            }
-
-        }
+        for (Element e : filter.getSelectedColors())
+            findColorById(e.getId()).select();
 
     }
 

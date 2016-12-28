@@ -29,21 +29,17 @@ import com.example.admin.sdosandroidcars.adapters.GridViewAdapter;
 import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.example.admin.sdosandroidcars.api.cars.Cars;
 import com.example.admin.sdosandroidcars.api.cars.FilteredCarsResultListener;
-import com.example.admin.sdosandroidcars.api.info.Element;
 import com.example.admin.sdosandroidcars.api.info.Filter;
 import com.example.admin.sdosandroidcars.api.info.Info;
 import com.example.admin.sdosandroidcars.api.info.InfoResultListener;
 import com.example.admin.sdosandroidcars.api.info.Request;
 import com.example.admin.sdosandroidcars.api.login.SessionManager;
 import com.example.admin.sdosandroidcars.fragments.AddCarFragment;
-import com.example.admin.sdosandroidcars.fragments.BaseFragment;
 import com.example.admin.sdosandroidcars.fragments.FilterFragment;
 import com.example.admin.sdosandroidcars.fragments.LoginFragment;
 import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Drawer extends AppCompatActivity
@@ -152,6 +148,7 @@ public class Drawer extends AppCompatActivity
             //REPINTA EL FRAGMENT
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof FilterFragment) {
+                Log.d(TAG, "Repintant fragment actual");
                 FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
                 fragTransaction.detach(currentFragment);
                 fragTransaction.attach(currentFragment);
@@ -327,7 +324,7 @@ public class Drawer extends AppCompatActivity
                     //Agafem el filtre retornat i actualitzem el de la clase Drawer (Main)
                     if (self.filter!=null) {
                         Log.d(TAG,"reloading");
-                        filter.reloadSelectedFilter(self.filter);
+                        filter.setSelectedFromFilter(self.filter);
                     }
                     self.setFilter(filter);
                     //Avisem que ja tenim un filtre disponible i el pasem
