@@ -37,6 +37,7 @@ public class GridViewAdapter extends ArrayAdapter<String> {
 
         Picasso.with(context)
                 .load(getItem(position))
+                .error(android.R.drawable.ic_delete)
                 .fit()
                 .centerCrop()
                 .into(gridViewItem);

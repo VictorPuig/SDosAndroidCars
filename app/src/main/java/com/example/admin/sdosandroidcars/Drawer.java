@@ -59,7 +59,7 @@ public class Drawer extends AppCompatActivity
     private GridView gridView;
     GridViewAdapter gridViewAdapter;
 
-    public int retryCount = 0;
+    private TextView userView;
 
     public SessionManager sessionManager;
 
@@ -107,11 +107,17 @@ public class Drawer extends AppCompatActivity
         nav.setNavigationItemSelectedListener(this);
         menu = nav.getMenu();
 
-        TextView userView = (TextView) nav.getHeaderView(0).findViewById(R.id.userInfo);
-        userView.setText(sessionManager.getuserName());
-
+        userView = (TextView) nav.getHeaderView(0).findViewById(R.id.userInfo);
+        setUserTextView();
         // Inicialitza el filter
         getFilter(this);
+    }
+
+    public void setUserTextView () {
+        if (sessionManager.isLoggedIn())
+            this.userView.setText(sessionManager.getuserName());
+        else
+            this.userView.setText("");
     }
 
     @Override
@@ -239,6 +245,7 @@ public class Drawer extends AppCompatActivity
                 break;
             case R.id.nav_logout:
                 SessionManager.logoutUser();
+                setUserTextView();
                 if (SessionManager.isLoggedIn())
                     Toast.makeText(this, "You are already signed in", Toast.LENGTH_SHORT).show();
                 else
@@ -383,12 +390,6 @@ public class Drawer extends AppCompatActivity
 
     @Override
     public void onFilterAvailable(Filter filter) {
-        if (filter.isEmpty() && retryCount <= 2) {
-            retryCount++;
-            getFilter(this);
-        }
-        else {
-            retryCount = 0;
-        }
+
     }
 }

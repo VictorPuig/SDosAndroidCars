@@ -30,6 +30,7 @@ public class APICall {
     private String url;
     private JSONObject requestJson;
     private APICallbackListener callbackClass;
+    private int retryCount = 0;
 
     public APICall(String method, String url) {
         this.url = url;
@@ -93,6 +94,11 @@ public class APICall {
 
             } catch (SocketTimeoutException e) {
                 Log.e(AsyncTAG, "Timeout!");
+                Log.d(AsyncTAG, "retryCount = " + retryCount);
+                if (retryCount <= 2) {
+                    doAPICall();
+                }
+
                 return null;
             } catch (UnsupportedEncodingException e) {  //TODO: EMAGHERD EXCEPTIENS
                 e.printStackTrace();
@@ -152,6 +158,12 @@ public class APICall {
         //Una vegada retornat el json, retornem la resposta a qui ha cridat APICall (Info)
         protected void onPostExecute(JSONObject json) {
             Log.d(AsyncTAG, ".onPostExecute() cridat");
+
+            if (json == null && retryCount <= 2 ) {
+                retryCount++;
+                return;
+            }
+
 
             callbackClass.onAPICallback(json);
         }

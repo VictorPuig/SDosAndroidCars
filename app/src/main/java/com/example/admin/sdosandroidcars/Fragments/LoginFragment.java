@@ -72,9 +72,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                                     Toast.makeText(getContext(), "Login Correct", Toast.LENGTH_SHORT).show();
                                     SessionManager.createLoginSession(user,pwd);
 
-                                    NavigationView nav = ((Drawer)getActivity()).nav;
-                                    TextView userView = (TextView) nav.getHeaderView(0).findViewById(R.id.userInfo);
-                                    userView.setText(user);
+                                    ((Drawer)getActivity()).setUserTextView();
 
                                     ((Drawer)getActivity()).show();
                                 }
