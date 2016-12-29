@@ -36,11 +36,10 @@ public class GridViewAdapter extends ArrayAdapter<String> {
         GridViewItem gridViewItem = (GridViewItem) row.findViewById(R.id.gridImage);
 
         Picasso.with(context)
-                .load((String)getItem(position))
+                .load(getItem(position))
                 .fit()
                 .centerCrop()
                 .into(gridViewItem);
-
 
         return row;
     }
