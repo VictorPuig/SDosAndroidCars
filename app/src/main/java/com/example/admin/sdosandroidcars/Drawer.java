@@ -55,10 +55,14 @@ public class Drawer extends AppCompatActivity
     private Menu menu;
 
     private DrawerLayout drawer;
+
     private GridView gridView;
+    GridViewAdapter gridViewAdapter;
+
     private TextView userView;
 
     public SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +180,7 @@ public class Drawer extends AppCompatActivity
                         }
                 });
             } else if (currentFragment == null) {
-                doGetCars();
+                initGridView();
             }
 
             return true;
@@ -195,38 +199,6 @@ public class Drawer extends AppCompatActivity
     private void uncheckMenuItems() {
         for (int i = 0; i < menu.size(); i++)
             menu.getItem(i).setChecked(false);
-    }
-
-    public void doGetCars () {
-        Request carsRequest = new Request(selectedFilter, 0, 20);  //TODO: Limit dinamic
-
-        Log.d(TAG, "Request json:" + carsRequest.getJSONObject().toString());
-
-        Log.d(TAG, "Filter inicials descarregats");
-        Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
-            @Override
-            public void onCarsResult(ArrayList<Car> cars) {
-                Log.d(TAG, "DoGetCars cridat");
-
-                if (cars == null) {
-                    Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
-                    ((TextView) findViewById(R.id.statusCarsView)).setText(R.string.error);
-                }
-                else {
-                    findViewById(R.id.statusCarsView).setVisibility(View.GONE);
-                    ArrayList<String> urls = new ArrayList<>();
-                    for (Car car : cars) {
-                        urls.add("http://" + Constants.API_HOST + "/" + car.getImgUrl());
-                    }
-
-                    for (String url : urls)
-                        Log.d("URLS", "url: " + url);
-
-                    GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, urls);
-                    gridView.setAdapter(gridViewAdapter);
-                }
-            }
-        });
     }
 
     private void displaySelectedScreen(int itemId) {
@@ -319,10 +291,51 @@ public class Drawer extends AppCompatActivity
 
         if (!filter.getSelected().equals(selectedFilter)) {
             selectedFilter = filter.getSelected();
-            doGetCars();
+            initGridView();
         }
 
         return fragmentRemoved;
+    }
+
+    public void addCarsToGridView(int nCars, final FilteredCarsResultListener l) {
+        Log.d(TAG, "adding " + nCars + " to gridview");
+
+        int offset = gridViewAdapter.getCount();
+
+        Request carsRequest = new Request(selectedFilter, offset, nCars);
+
+        Log.d(TAG, "Request json:" + carsRequest.getJSONObject().toString());
+
+        Cars.doGetCars(carsRequest, new FilteredCarsResultListener() {
+            @Override
+            public void onCarsResult(ArrayList<Car> cars) {
+                if (cars == null) {
+                    Toast.makeText(getApplicationContext(), "No hi han cotxes!", Toast.LENGTH_SHORT).show();
+                    ((TextView) findViewById(R.id.statusCarsView)).setText(R.string.error);
+                }
+                else {
+                    findViewById(R.id.statusCarsView).setVisibility(View.GONE);
+
+                    for (Car car : cars) {
+                        String url = "http://" + Constants.API_HOST + "/" + car.getImgUrl();
+                        Log.d("URLS", "url: " + url);
+
+                        gridViewAdapter.add(url);
+                    }
+                }
+
+                l.onCarsResult(cars);
+            }
+        });
+    }
+
+    public void initGridView() {
+        Log.d(TAG, "initGridView cridat");
+
+        gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, new ArrayList<String>());
+        gridView.setAdapter(gridViewAdapter);
+        gridView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);  // No se si cal pero no fa mal.
+        gridView.setOnScrollListener(new EndlessScrollListener(this));
     }
 
     public void setFilter(Filter filter) {
@@ -331,11 +344,9 @@ public class Drawer extends AppCompatActivity
 
         if (selectedFilter == null) {
             selectedFilter = filter.getSelected();
-            doGetCars();
+            initGridView();
         }
     }
-
-
 
     public void getFilter (final boolean force, final FilterAvailableListener filterAvailableListener) {
         Log.d(TAG, ".getFilter(force=" + force + ") cridat");
