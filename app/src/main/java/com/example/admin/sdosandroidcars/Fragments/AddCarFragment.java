@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.sdosandroidcars.Drawer;
@@ -35,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
@@ -103,6 +102,9 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
                 e.printStackTrace();
             }
             base64Img = getEncoded64ImageStringFromBitmap(bitmap);
+
+            ImageView imgViwew = (ImageView) getView().findViewById(R.id.imageView);
+            imgViwew.setImageBitmap(bitmap);
 
             cursor.close();
 
