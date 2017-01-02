@@ -63,6 +63,8 @@ public class Drawer extends AppCompatActivity
 
     public SessionManager sessionManager;
 
+    public Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,7 @@ public class Drawer extends AppCompatActivity
         if (background instanceof ColorDrawable)
             activityColor = ((ColorDrawable) background).getColor();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -329,7 +331,7 @@ public class Drawer extends AppCompatActivity
     public void initGridView() {
         Log.d(TAG, "initGridView cridat");
 
-        gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, new ArrayList<Car>());
+        gridViewAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, new ArrayList<Car>());
         gridView.setAdapter(gridViewAdapter);
         gridView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);  // No se si cal pero no fa mal.
         gridView.setOnScrollListener(new EndlessScrollListener(this));
