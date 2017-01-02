@@ -248,12 +248,13 @@ public class Drawer extends AppCompatActivity
             case R.id.nav_logout:
                 SessionManager.logoutUser();
                 setUserTextView();
-                if (SessionManager.isLoggedIn())
-                    Toast.makeText(this, "You are already signed in", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
-                show();
-
+                if (filter != null) {
+                    if (SessionManager.isLoggedIn())
+                        Toast.makeText(this, "You are already signed in", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(this, "Logouted", Toast.LENGTH_SHORT).show();
+                    show();
+                }
         }
 
         //replacing the fragment
