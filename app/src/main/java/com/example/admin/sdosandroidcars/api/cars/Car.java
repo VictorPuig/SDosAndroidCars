@@ -1,6 +1,8 @@
 package com.example.admin.sdosandroidcars.api.cars;
 
 
+import com.example.admin.sdosandroidcars.Constants;
+
 public class Car {
 
     private int id;
@@ -34,7 +36,7 @@ public class Car {
     }
 
     public String getImgUrl() {
-        return imgUrl;
+        return "http://" + Constants.API_HOST + "/" + imgUrl;
     }
 
     @Override

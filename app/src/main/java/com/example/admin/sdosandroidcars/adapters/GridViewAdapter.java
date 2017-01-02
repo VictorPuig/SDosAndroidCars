@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.example.admin.sdosandroidcars.R;
+import com.example.admin.sdosandroidcars.api.cars.Car;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class GridViewAdapter extends ArrayAdapter<String> {
+public class GridViewAdapter extends ArrayAdapter<Car> {
 
     private Context context;
     private int layoutResourceId;
 
-    public GridViewAdapter(Context context, int layoutResourceId, ArrayList<String> data) {
+    public GridViewAdapter(Context context, int layoutResourceId, ArrayList<Car> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -36,7 +37,7 @@ public class GridViewAdapter extends ArrayAdapter<String> {
         GridViewItem gridViewItem = (GridViewItem) row.findViewById(R.id.gridImage);
 
         Picasso.with(context)
-                .load(getItem(position))
+                .load(getItem(position).getImgUrl())
                 .error(android.R.drawable.ic_delete)
                 .fit()
                 .centerCrop()

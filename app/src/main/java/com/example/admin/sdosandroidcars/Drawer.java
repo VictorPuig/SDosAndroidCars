@@ -317,10 +317,7 @@ public class Drawer extends AppCompatActivity
                     findViewById(R.id.statusCarsView).setVisibility(View.GONE);
 
                     for (Car car : cars) {
-                        String url = "http://" + Constants.API_HOST + "/" + car.getImgUrl();
-                        Log.d("URLS", "url: " + url);
-
-                        gridViewAdapter.add(url);
+                        gridViewAdapter.add(car);
                     }
                 }
 
@@ -332,7 +329,7 @@ public class Drawer extends AppCompatActivity
     public void initGridView() {
         Log.d(TAG, "initGridView cridat");
 
-        gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, new ArrayList<String>());
+        gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item_layout, new ArrayList<Car>());
         gridView.setAdapter(gridViewAdapter);
         gridView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);  // No se si cal pero no fa mal.
         gridView.setOnScrollListener(new EndlessScrollListener(this));
