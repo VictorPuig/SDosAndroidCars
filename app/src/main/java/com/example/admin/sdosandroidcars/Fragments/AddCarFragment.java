@@ -2,7 +2,6 @@ package com.example.admin.sdosandroidcars.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -78,19 +77,10 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK
-                && null != data) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
 
             Uri selectedImage = data.getData();
             Log.d(TAG, "selectedImage = " + selectedImage);
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-
-
-            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -101,13 +91,11 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             base64Img = getEncoded64ImageStringFromBitmap(bitmap);
 
             ImageView imgViwew = (ImageView) getView().findViewById(R.id.imageView);
             imgViwew.setImageBitmap(bitmap);
-
-            cursor.close();
-
         }
     }
 
@@ -262,8 +250,5 @@ public class AddCarFragment extends BaseFragment implements View.OnClickListener
         ElementSpinnerAdapter colorAdapter = new ElementSpinnerAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, filter.getColors());
         colorSpinner.setAdapter(colorAdapter);
     }
-
-
-
 }
 
