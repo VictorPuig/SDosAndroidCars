@@ -41,8 +41,6 @@
             android:layout_centerHorizontal="true" />
     </LinearLayout>
 
-
-
     <include
         layout="@layout/app_bar_drawer"
         android:layout_width="match_parent"
