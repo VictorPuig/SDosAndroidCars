@@ -1,5 +1,7 @@
 package com.example.admin.sdosandroidcars;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,9 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -40,7 +39,6 @@ import com.example.admin.sdosandroidcars.fragments.LoginFragment;
 import com.example.admin.sdosandroidcars.fragments.SignupFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FilterAvailableListener {
@@ -164,7 +162,7 @@ public class Drawer extends AppCompatActivity
 
             final Drawer self = this;
 
-            final Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            final Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof FilterFragment) {
                 getFilter(true, new FilterAvailableListener() {
                     @Override
@@ -175,7 +173,7 @@ public class Drawer extends AppCompatActivity
                         //REPINTA EL FRAGMENT
 
                         Log.d(TAG, "Repintant fragment actual");
-                        FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                        FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
                         fragTransaction.detach(currentFragment);
                         fragTransaction.attach(currentFragment);
                         fragTransaction.commit();
@@ -259,7 +257,10 @@ public class Drawer extends AppCompatActivity
 
         //replacing the fragment
         if (fragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment previous = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (previous != null)
+                ft.remove(previous);
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }
@@ -274,13 +275,36 @@ public class Drawer extends AppCompatActivity
     public boolean show() {
         Log.d(TAG, "show cridat");
 
-        FragmentManager fm = getSupportFragmentManager();
-
         boolean fragmentRemoved = false;
-        FragmentTransaction ft = fm.beginTransaction();
-        List<Fragment> fragments = fm.getFragments();
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
+
+        if (fragment != null) {
+            fragmentRemoved = true;
+
+            ft.remove(fragment);
+            ft.commit();
+        }
+
+        setTitle(R.string.app_name);
+        uncheckMenuItems();
+        menu.getItem(0).setChecked(true);
+
+        if (!filter.getSelected().equals(selectedFilter)) {
+            selectedFilter = filter.getSelected();
+            initGridView();
+        }
+
+        return fragmentRemoved;
+
+        /*FragmentManager fm = getSupportFragmentManager();
+
+
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        List<android.support.v4.app.Fragment> fragments = fm.getFragments();
         if (fragments != null)
-            for (Fragment f : fragments) {
+            for (android.support.v4.app.Fragment f : fragments) {
                 if (f != null) {
                     fragmentRemoved = true;
                     ft.remove(f);
@@ -297,11 +321,14 @@ public class Drawer extends AppCompatActivity
             initGridView();
         }
 
-        return fragmentRemoved;
+        return fragmentRemoved;*/
     }
 
     public void addCarsToGridView(int nCars, final FilteredCarsResultListener l) {
         Log.d(TAG, "adding " + nCars + " to gridview");
+
+        if (filter == null)
+            return;
 
         int offset = gridViewAdapter.getCount();
 
