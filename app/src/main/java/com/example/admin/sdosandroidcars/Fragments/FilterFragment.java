@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +21,9 @@ import com.example.admin.sdosandroidcars.api.info.Filter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FilterFragment extends BaseFragment implements FilterAvailableListener {
+public class FilterFragment extends BaseFragment implements FilterAvailableListener, View.OnClickListener {
     Filter filter;
-
+    Button okFilterBtn;
     private static final String TAG = "FilterFragment";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,7 +36,8 @@ public class FilterFragment extends BaseFragment implements FilterAvailableListe
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Filter");
-
+        okFilterBtn = (Button) view.findViewById(R.id.okFilterBtn);
+        okFilterBtn.setOnClickListener(this);
         ((Drawer) getActivity()).getFilter(this);
     }
 
@@ -67,6 +69,15 @@ public class FilterFragment extends BaseFragment implements FilterAvailableListe
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        if (id == R.id.okFilterBtn) {
+            ((Drawer) getActivity()).show();
         }
     }
 }

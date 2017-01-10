@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/loadingLayout">
+        android:id="@+id/loadingLayout"
+        android:layout_weight="1">
 
         <TextView
             android:text="@string/loading"
@@ -18,13 +19,14 @@
             android:textSize="36sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="436dp"
         android:orientation="horizontal"
-        android:visibility="gone"
+
         android:id="@+id/dataLayoutParent">
 
         <ExpandableListView
@@ -32,5 +34,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="20dp" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/okFilterBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/statusTextView"
+            android:layout_toStartOf="@+id/statusTextView"
+            android:layout_height="61dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="50dp"
+            android:text="Ok" />
+
+    </LinearLayout>
+
 </LinearLayout>
