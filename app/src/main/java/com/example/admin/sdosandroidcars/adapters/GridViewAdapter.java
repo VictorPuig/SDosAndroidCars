@@ -70,12 +70,15 @@ public class GridViewAdapter extends ArrayAdapter<Car> {
                 bundle.putString("model", getItem(position).getName());
                 bundle.putString("color", getItem(position).getColor());
                 bundle.putString("url", getItem(position).getImgUrl());
+
+                FragmentTransaction ft = ((Activity)context).getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(android.R.animator.fade_in,android.R.anim.fade_out);
+
                 fragment = new CarDetailFragment();
                 fragment.setArguments(bundle);
 
                 //replacing the fragment
                 if (fragment != null) {
-                    FragmentTransaction ft = ((Activity)context).getFragmentManager().beginTransaction();
                     ft.replace(R.id.content_frame, fragment);
                     ft.commit();
                 }
