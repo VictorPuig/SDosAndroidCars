@@ -37,7 +37,9 @@ public class CarDetailFragment extends BaseFragment {
         imageView = (ImageView) getView().findViewById(R.id.imageViewCar);
 
         final Context self = getContext();
-
+        final TextView textViewModel = (TextView) getActivity().findViewById(R.id.textViewCarModel);
+        final TextView textViewMaker = (TextView) getActivity().findViewById(R.id.textViewCarMaker);
+        final TextView textViewColor = (TextView) getActivity().findViewById(R.id.textViewCarColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -50,16 +52,16 @@ public class CarDetailFragment extends BaseFragment {
                                 .into(imageView, new Callback() {
                                     @Override
                                     public void onSuccess() {
-                                        TextView textViewModel = (TextView) getActivity().findViewById(R.id.textViewCarModel);
-                                        textViewModel.setText(StringUtils.titleCase(getArguments().getString("model")));
 
-                                        TextView textViewMaker = (TextView) getActivity().findViewById(R.id.textViewCarMaker);
-                                        textViewMaker.setText(StringUtils.titleCase(getArguments().getString("maker")));
+                                        if (getActivity().findViewById(R.id.car_detail_data) != null) {
+                                            textViewModel.setText(StringUtils.titleCase(getArguments().getString("model")));
 
-                                        TextView textViewColor = (TextView) getActivity().findViewById(R.id.textViewCarColor);
-                                        textViewColor.setText(StringUtils.titleCase(getArguments().getString("color")));
+                                            textViewMaker.setText(StringUtils.titleCase(getArguments().getString("maker")));
 
-                                        getActivity().findViewById(R.id.car_detail_data).setVisibility(View.VISIBLE);
+                                            textViewColor.setText(StringUtils.titleCase(getArguments().getString("color")));
+
+                                            getActivity().findViewById(R.id.car_detail_data).setVisibility(View.VISIBLE);
+                                        }
                                     }
 
                                     @Override

@@ -261,6 +261,7 @@ public class Drawer extends AppCompatActivity
             Fragment previous = getFragmentManager().findFragmentById(R.id.content_frame);
             if (previous != null)
                 ft.remove(previous);
+            ft.setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out);
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }
@@ -282,7 +283,7 @@ public class Drawer extends AppCompatActivity
 
         if (fragment != null) {
             fragmentRemoved = true;
-
+            ft.setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out);
             ft.remove(fragment);
             ft.commit();
         }
