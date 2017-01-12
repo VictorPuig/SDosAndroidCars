@@ -73,13 +73,15 @@ public class CarDetailFragment extends BaseFragment {
             });
         }
 
+        final DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        final int distance = (int) (metrics.widthPixels * 0.3);
+
         final LinearLayout linearLayout = (LinearLayout) getView().findViewById(R.id.car_detail_linear_layout);
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
 
             float startX;
             float linearStartX;
-
-            int halfScreen;
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -87,14 +89,14 @@ public class CarDetailFragment extends BaseFragment {
                     startX = motionEvent.getX();
                     linearStartX = linearLayout.getX();
 
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                    halfScreen = (int) (metrics.widthPixels * 0.4);
+
 
                     return true;
 
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                    if (linearLayout.getX() > halfScreen || linearLayout.getX() + linearLayout.getWidth() < halfScreen)
+                    if (linearLayout.getX() > startX && linearLayout.getX() - startX >= distance)
+                        ((Drawer)getActivity()).show();
+                    if (linearLayout.getX() < startX && linearLayout.getX() + linearLayout.getWidth() <= metrics.widthPixels - distance)
                         ((Drawer)getActivity()).show();
                         //self.finish();
 
